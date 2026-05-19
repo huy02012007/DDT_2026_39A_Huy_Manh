@@ -98,3 +98,21 @@ public:
     VaiTro = vitri;
   }
 };
+class CauLong {
+private:
+  string IDsan;
+  string TenSan;
+  string TrangThai;
+
+public:
+  CauLong() {}
+  CauLong(string ID, string tensan, string trangthai) {
+    IDsan = ID;
+    TenSan = tensan;
+    TrangThai = trangthai;
+  }
+  string getID() { return IDsan; }
+  string getTenSan() { return TenSan; }
+  string getTrangThai() { return TrangThai; }
+  void setTrangThai(string tt) { TrangThai = tt; }
+};
