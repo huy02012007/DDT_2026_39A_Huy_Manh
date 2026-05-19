@@ -139,3 +139,48 @@ public:
     SoLuongTonKho = SoLuongTonKho - so_luong_mua;
   }
 };
+class DatVatDung {
+private:
+  string ID_dat_hang;
+  string SDT_khach;
+  string IDsan;
+  string TrangThai;
+  Date NgayDat;
+  Time GioBatDau;
+  Time GioKetThuc;
+  string IDdich_vu_da_dat[20];
+  int so_luong_dich_vu_da_dat[20];
+  int dem_so_luong_dat;
+
+public:
+  DatVatDung() {}
+  DatVatDung(string ID, string sdt, string IDSan, string tt, Date ngay,
+             Time batdau, Time ketthuc) {
+    ID_dat_hang = ID;
+    SDT_khach = sdt;
+    IDsan = IDSan;
+    TrangThai = tt;
+    NgayDat = ngay;
+    GioBatDau = batdau;
+    GioKetThuc = ketthuc;
+    dem_so_luong_dat = 0;
+  }
+  string getID_dat_hang() { return ID_dat_hang; }
+  string getSDT_khach() { return SDT_khach; }
+  string getIDsan() { return IDsan; }
+  string getTrangThai() { return TrangThai; }
+  Date getNgayDat() { return NgayDat; }
+  Time getGioBatDau() { return GioBatDau; }
+  Time getGioKetThuc() { return GioKetThuc; }
+  void setTrangThai(string tt) { TrangThai = tt; }
+  void them_dich_vu(string id_dich_vu, int so_luong) {
+    IDdich_vu_da_dat[dem_so_luong_dat] = id_dich_vu;
+    so_luong_dich_vu_da_dat[dem_so_luong_dat] = so_luong;
+    dem_so_luong_dat++;
+  }
+  int getDemSoLuongDat() { return dem_so_luong_dat; }
+  string getIDDichVuDaDat(int vitri) { return IDdich_vu_da_dat[vitri]; }
+  int getsoluongdichvudadat(int so_luong) {
+    return so_luong_dich_vu_da_dat[so_luong];
+  }
+};
