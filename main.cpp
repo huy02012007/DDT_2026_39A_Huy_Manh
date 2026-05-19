@@ -116,3 +116,26 @@ public:
   string getTrangThai() { return TrangThai; }
   void setTrangThai(string tt) { TrangThai = tt; }
 };
+class DichVu {
+private:
+  string IDsp;
+  string tensp;
+  long long DonGia;
+  int SoLuongTonKho;
+
+public:
+  DichVu() {}
+  DichVu(string ID, string ten, long long gia, int soluong) {
+    IDsp = ID;
+    tensp = ten;
+    DonGia = gia;
+    SoLuongTonKho = soluong;
+  }
+  string getIDsp() { return IDsp; }
+  string gettensp() { return tensp; }
+  long long getdongia() { return DonGia; }
+  int getsoluongtonkho() { return SoLuongTonKho; }
+  void ton_kho_sau_khi_ban(int so_luong_mua) {
+    SoLuongTonKho = SoLuongTonKho - so_luong_mua;
+  }
+};
