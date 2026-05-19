@@ -41,3 +41,60 @@ struct Date {
     return danhSachThu[ketQua];
   }
 };
+class nguoi {
+protected:
+  string HoTen;
+  string SDT;
+
+public:
+  nguoi() {}
+  nguoi(string ten, string sdt) {
+    HoTen = ten;
+    SDT = sdt;
+  }
+  void NhapThongTin() {
+    cout << "Nhap ho ten : ";
+    getline(cin, HoTen);
+    cout << "Nhap so dien thoai : ";
+    getline(cin, SDT);
+  }
+  void InThongTin() {
+    cout << "Nguoi dung : " << HoTen << "| So dien thoai : " << SDT << endl;
+  }
+  string getHoTen() { return HoTen; }
+  string getSDT() { return SDT; }
+};
+class KhachHang : public nguoi {
+private:
+  int DiemTichLuy;
+
+public:
+  KhachHang() : nguoi() { DiemTichLuy = 0; }
+  KhachHang(string ten, string sdt, int diem) : nguoi(ten, sdt) {
+    DiemTichLuy = diem;
+  }
+  string HangThanhVien() {
+    if (DiemTichLuy >= 300)
+      return "VIP";
+    if (DiemTichLuy >= 150)
+      return "Gold";
+    if (DiemTichLuy >= 50)
+      return "Silver";
+    return "Normal";
+  }
+};
+class NguoiDung : public nguoi {
+private:
+  string Taikhoan;
+  string MatKhau;
+  string VaiTro;
+
+public:
+  NguoiDung() : nguoi() {}
+  NguoiDung(string ten, string sdt, string tk, string mk, string vitri)
+      : nguoi(ten, sdt) {
+    Taikhoan = tk;
+    MatKhau = mk;
+    VaiTro = vitri;
+  }
+};
