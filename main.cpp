@@ -97,6 +97,9 @@ public:
     MatKhau = mk;
     VaiTro = vitri;
   }
+  string gettk() { return Taikhoan; }
+  string getmk() { return MatKhau; }
+  string getvaitro() { return VaiTro; }
 };
 class CauLong {
 private:
@@ -207,6 +210,29 @@ void khoi_tao_gia_tri() {
   so_luong_san = 4;
   so_luong_dv = 4;
   so_luong_user = 1;
+}
+string xu_li_dang_nhap() {
+  int chon1;
+  string vai_tro_can_tim;
+  cout << "Vui long chon vai tro de he thong khoi dong (1.Admin | 2.Staff)";
+  cin >> chon1;
+  if (chon1 == 1)
+    vai_tro_can_tim = "admin";
+  if (chon1 == 2)
+    vai_tro_can_tim = "staff";
+  string username, pass;
+  cin.ignore();
+  cout << "Vui long nhap tai khoan : ";
+  getline(cin, username);
+  cout << "Mat Khau : ";
+  getline(cin, pass);
+  for (int i = 0; i < so_luong_user; i++) {
+    if (ds_nguoi_dung[i].gettk() == username &&
+        ds_nguoi_dung[i].getmk() == pass &&
+        ds_nguoi_dung[i].getvaitro() == vai_tro_can_tim)
+      return ds_nguoi_dung[i].getvaitro();
+  }
+  return "";
 }
 int main() {
   khoi_tao_gia_tri();
