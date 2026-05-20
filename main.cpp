@@ -234,6 +234,60 @@ string xu_li_dang_nhap() {
   }
   return "";
 }
+void ve_duong_ngang(string goctrai, string gocphai, int dorong) {
+  cout << goctrai;
+  for (int i = 0; i < dorong; i++) {
+    cout << "─";
+  }
+  cout << gocphai << "\n";
+}
+void menu_admin() {
+  int chon;
+  int do_rong = 55;
+
+  while (true) {
+    ve_duong_ngang("┌", "┐", do_rong);
+    cout << "│" << left << setw(do_rong)
+         << "               MENU QUAN LY (ADMIN)" << "│\n";
+    ve_duong_ngang("├", "┤", do_rong);
+    cout << "│" << left << setw(do_rong)
+         << " [1] Tat ca cac chuc nang cua Nhan vien" << "│\n";
+    cout << "│" << left << setw(do_rong)
+         << " [2] Thiet lap gia thue san va khung gio" << "│\n";
+    cout << "│" << left << setw(do_rong)
+         << " [3] Quan ly danh sach san (Them/Xoa)" << "│\n";
+    cout << "│" << left << setw(do_rong)
+         << " [4] Quan ly kho hang & Gia nuoc/cau/cuon can" << "│\n";
+    cout << "│" << left << setw(do_rong)
+         << " [5] Quan ly tai khoan Nhan vien (Them/Xoa)" << "│\n";
+    cout << "│" << left << setw(do_rong)
+         << " [6] Xem bao cao doanh thu va hieu suat san" << "│\n";
+    cout << "│" << left << setw(do_rong) << " [0] Dang xuat khoi he thong"
+         << "│\n";
+    ve_duong_ngang("└", "┘", do_rong);
+
+    cout << " -> Lua chon cua ban: ";
+    cin >> chon;
+    switch (chon) {
+    case 1:
+      break;
+    case 2:
+      break;
+    case 3:
+      break;
+    case 4:
+      break;
+    case 5:
+      break;
+    case 6:
+      break;
+    case 0:
+      return;
+    default:
+      cout << "Nhap sai, vui long nhap lai!\n";
+    }
+  }
+}
 int main() {
   khoi_tao_gia_tri();
 
@@ -252,7 +306,7 @@ int main() {
     case 1: {
       string role = xu_li_dang_nhap();
       if (role == "admin")
-        cout << "Bang dieu khien admin";
+        menu_admin();
       else if (role == "staff")
         cout << "Bang dieu khien staff";
       else if (role == "")
