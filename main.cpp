@@ -180,7 +180,31 @@ public:
   }
   int getDemSoLuongDat() { return dem_so_luong_dat; }
   string getIDDichVuDaDat(int vitri) { return IDdich_vu_da_dat[vitri]; }
-  int getsoluongdichvudadat(int so_luong) {
-    return so_luong_dich_vu_da_dat[so_luong];
+  int getsoluongdichvudadat(int vitri) {
+    return so_luong_dich_vu_da_dat[vitri];
   }
 };
+CauLong *ds_san;
+DichVu *ds_dichvu;
+NguoiDung *ds_nguoi_dung;
+int so_luong_san = 0;
+int so_luong_dv = 0;
+int so_luong_user = 0;
+void khoi_tao_gia_tri() {
+  ds_san = new CauLong[20];
+  ds_dichvu = new DichVu[50];
+  ds_nguoi_dung = new NguoiDung[20];
+  ds_san[0] = CauLong("SAN 1", "SAN THUONG 1", "Trong");
+  ds_san[1] = CauLong("SAN 2", "SAN THUONG 2", "Trong");
+  ds_san[2] = CauLong("SAN 3", "SAN THUONG 3", "Trong");
+  ds_san[3] = CauLong("SAN 4", "SAN THUONG 4", "Trong");
+  ds_dichvu[0] = DichVu("DV01", "Nuoc loc", 10000, 100);
+  ds_dichvu[1] = DichVu("DV02", "Quan can vot", 15000, 100);
+  ds_dichvu[2] = DichVu("DV03", "Cau le", 30000, 100);
+  ds_dichvu[3] = DichVu("DV04", "Hop cau", 300000, 100);
+  ds_nguoi_dung[0] =
+      NguoiDung("H.Huy", "0868880087", "tamlinhml", "Huy123456", "admin");
+  so_luong_san = 4;
+  so_luong_dv = 4;
+  so_luong_user = 1;
+}
