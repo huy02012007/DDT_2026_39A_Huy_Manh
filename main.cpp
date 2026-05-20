@@ -208,3 +208,39 @@ void khoi_tao_gia_tri() {
   so_luong_dv = 4;
   so_luong_user = 1;
 }
+int main() {
+  khoi_tao_gia_tri();
+
+  int chon;
+  while (true) {
+    cout << "\n--- HE THONG QUAN LY SAN CAU LONG ---\n";
+    cout << "1. Dang nhap\n";
+    cout << "0. Thoat\n";
+    cout << "Nhap lua chon: ";
+    cin >> chon;
+
+    if (chon == 0) {
+      break;
+    }
+
+    switch (chon) {
+    case 1:
+
+      break;
+    case 2:
+
+      break;
+    case 3:
+
+      break;
+    default:
+      cout << "Vui long nhap lai!\n";
+    }
+  }
+
+  delete[] ds_san;
+  delete[] ds_dichvu;
+  delete[] ds_nguoi_dung;
+
+  return 0;
+}
