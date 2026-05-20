@@ -214,7 +214,7 @@ void khoi_tao_gia_tri() {
 string xu_li_dang_nhap() {
   int chon1;
   string vai_tro_can_tim;
-  cout << "Vui long chon vai tro de he thong khoi dong (1.Admin | 2.Staff)";
+  cout << "Vui long chon vai tro de he thong khoi dong (1.Admin | 2.Staff) : ";
   cin >> chon1;
   if (chon1 == 1)
     vai_tro_can_tim = "admin";
@@ -240,19 +240,26 @@ int main() {
   int chon;
   while (true) {
     cout << "\n--- HE THONG QUAN LY SAN CAU LONG ---\n";
-    cout << "1. Dang nhap\n";
-    cout << "0. Thoat\n";
-    cout << "Nhap lua chon: ";
+    cout << "[1] Dang nhap\n";
+    cout << "[0] Thoat\n";
+    cout << "Nhap lua chon cua ban (0-1) : ";
     cin >> chon;
 
     if (chon == 0) {
       break;
     }
-
     switch (chon) {
-    case 1:
+    case 1: {
+      string role = xu_li_dang_nhap();
+      if (role == "admin")
+        cout << "Bang dieu khien admin";
+      else if (role == "staff")
+        cout << "Bang dieu khien staff";
+      else if (role == "")
+        cout << "Dang nhap that bai!";
+    }
 
-      break;
+    break;
     case 2:
 
       break;
