@@ -1,4 +1,6 @@
 #include <bits/stdc++.h>
+#include <iomanip>
+#include <string>
 using namespace std;
 
 struct Time {
@@ -103,6 +105,7 @@ public:
   string getmk() { return MatKhau; }
   string getvaitro() { return VaiTro; }
 };
+int NguoiDung::so_luong_user = 0;
 class CauLong {
 private:
   string IDsan;
@@ -123,6 +126,7 @@ public:
   string getTrangThai() { return TrangThai; }
   void setTrangThai(string tt) { TrangThai = tt; }
 };
+int CauLong::so_luong_san = 0;
 class DichVu {
 private:
   string IDsp;
@@ -148,6 +152,7 @@ public:
     SoLuongTonKho = SoLuongTonKho - so_luong_mua;
   }
 };
+int DichVu::so_luong_dv = 0;
 class DatVatDung {
 private:
   string ID_dat_hang;
@@ -200,16 +205,15 @@ void khoi_tao_gia_tri() {
   ds_san = new CauLong[20];
   ds_dichvu = new DichVu[50];
   ds_nguoi_dung = new NguoiDung[20];
-  ds_san[0] = CauLong("SAN 1", "SAN THUONG 1", "Trong");
-  ds_san[1] = CauLong("SAN 2", "SAN THUONG 2", "Trong");
-  ds_san[2] = CauLong("SAN 3", "SAN THUONG 3", "Trong");
-  ds_san[3] = CauLong("SAN 4", "SAN THUONG 4", "Trong");
+  ds_san[0] = CauLong("SNT01", "SAN THUONG 1", "Trong");
+  ds_san[1] = CauLong("SNT02", "SAN THUONG 2", "Trong");
+  ds_san[2] = CauLong("SNT03", "SAN THUONG 3", "Trong");
+  ds_san[3] = CauLong("SNT04", "SAN THUONG 4", "Trong");
   ds_dichvu[0] = DichVu("DV01", "Nuoc loc", 10000, 100);
   ds_dichvu[1] = DichVu("DV02", "Quan can vot", 15000, 100);
   ds_dichvu[2] = DichVu("DV03", "Cau le", 30000, 100);
   ds_dichvu[3] = DichVu("DV04", "Hop cau", 300000, 100);
-  ds_nguoi_dung[0] =
-      NguoiDung("H.Huy", "0868880087", "tamlinhml", "Huy123456", "admin");
+  ds_nguoi_dung[0] = NguoiDung("H.Huy", "0868880087", "1", "1", "admin");
 }
 string xu_li_dang_nhap() {
   int chon1;
@@ -324,7 +328,86 @@ void thiet_lap_gia_thue() {
     }
   }
 }
-void quan_li_ds_san() {}
+void quan_li_ds_san() {
+  int chon;
+  while (true) {
+    ve_duong_ngang("┌", "┐", do_rong);
+    cout << "│" << left << setw(do_rong) << "             QUAN LY DANH SACH SAN"
+         << "│\n";
+    ve_duong_ngang("├", "┤", do_rong);
+    cout << "│" << left << setw(do_rong) << "[1] Xem danh sach san hien tai"
+         << "│\n";
+    cout << "│" << left << setw(do_rong) << "[2] Them san"
+         << "│\n";
+    cout << "│" << left << setw(do_rong) << "[3] Xoa san" << "│\n";
+    cout << "│" << left << setw(do_rong) << "[0] Luu du lieu va quay lai"
+         << "│\n";
+    ve_duong_ngang("└", "┘", do_rong);
+    cout << " -> Lua chon cua ban: ";
+    cin >> chon;
+    switch (chon) {
+    case 1: {
+      while (true) {
+        ve_duong_ngang("┌", "┐", do_rong);
+        cout << "│" << left << setw(do_rong)
+             << "             DANH SACH SAN CAU LONG"
+             << "│\n";
+        ve_duong_ngang("├", "┤", do_rong);
+        cout << "│ " << left << setw(12) << "  MA SAN"
+             << "│ " << left << setw(22) << "      TEN SAN"
+             << "│ " << left << setw(do_rong - 39) << "   TRANG THAI" << "│\n";
+        ve_duong_ngang("├", "┤", do_rong);
+        for (int i = 0; i < CauLong::so_luong_san; i++) {
+          cout << "│ " << left << setw(12) << ("  " + ds_san[i].getID()) << "│ "
+               << left << setw(22) << ("   " + ds_san[i].getTenSan()) << "│ "
+               << left << setw(do_rong - 39)
+               << ("      " + ds_san[i].getTrangThai()) << "│\n";
+        }
+        ve_duong_ngang("└", "┘", do_rong);
+        cout << "-> Nhan phim 0 de quay lai : ";
+        int quaylai;
+        cin >> quaylai;
+        if (quaylai == 0) {
+          break;
+        }
+      }
+      break;
+    }
+    case 2: {
+      int so_san;
+      cout << "-> Vui long nhap so luong san muon them : ";
+      cin >> so_san;
+
+      for (int i = 0; i < so_san; i++) {
+        int vitri = CauLong::so_luong_san;
+
+        string id_moi = "SNT0" + to_string(vitri + 1);
+        string ten_moi = "SAN THUONG " + to_string(vitri + 1);
+
+        ds_san[vitri] = CauLong(id_moi, ten_moi, "Trong");
+      }
+      cout << "\033[32m -> Da them san thanh cong " << so_san
+           << " san thanh cong!\033[0m\n";
+      break;
+    }
+    case 3: {
+      int so_san;
+      cout << "-> Vui long nhap so luong san muon xoa : ";
+      cin >> so_san;
+      for (int i = 0; i < so_san; i++) {
+        CauLong::so_luong_san--;
+      }
+      cout << "\033[32m -> Da xoa san thanh cong " << so_san
+           << " san thanh cong!\033[0m\n";
+      break;
+    }
+    case 0: {
+      break;
+    }
+    }
+    break;
+  }
+}
 void menu_admin() {
   int chon;
   while (true) {
@@ -357,6 +440,7 @@ void menu_admin() {
       thiet_lap_gia_thue();
       break;
     case 3:
+      quan_li_ds_san();
       break;
     case 4:
       break;
