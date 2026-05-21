@@ -90,12 +90,14 @@ private:
   string VaiTro;
 
 public:
+  static int so_luong_user;
   NguoiDung() : nguoi() {}
   NguoiDung(string ten, string sdt, string tk, string mk, string vitri)
       : nguoi(ten, sdt) {
     Taikhoan = tk;
     MatKhau = mk;
     VaiTro = vitri;
+    so_luong_user++;
   }
   string gettk() { return Taikhoan; }
   string getmk() { return MatKhau; }
@@ -108,11 +110,13 @@ private:
   string TrangThai;
 
 public:
+  static int so_luong_san;
   CauLong() {}
   CauLong(string ID, string tensan, string trangthai) {
     IDsan = ID;
     TenSan = tensan;
     TrangThai = trangthai;
+    so_luong_san++;
   }
   string getID() { return IDsan; }
   string getTenSan() { return TenSan; }
@@ -127,12 +131,14 @@ private:
   int SoLuongTonKho;
 
 public:
+  static int so_luong_dv;
   DichVu() {}
   DichVu(string ID, string ten, long long gia, int soluong) {
     IDsp = ID;
     tensp = ten;
     DonGia = gia;
     SoLuongTonKho = soluong;
+    so_luong_dv++;
   }
   string getIDsp() { return IDsp; }
   string gettensp() { return tensp; }
@@ -190,9 +196,6 @@ public:
 CauLong *ds_san;
 DichVu *ds_dichvu;
 NguoiDung *ds_nguoi_dung;
-int so_luong_san = 0;
-int so_luong_dv = 0;
-int so_luong_user = 0;
 void khoi_tao_gia_tri() {
   ds_san = new CauLong[20];
   ds_dichvu = new DichVu[50];
@@ -207,9 +210,6 @@ void khoi_tao_gia_tri() {
   ds_dichvu[3] = DichVu("DV04", "Hop cau", 300000, 100);
   ds_nguoi_dung[0] =
       NguoiDung("H.Huy", "0868880087", "tamlinhml", "Huy123456", "admin");
-  so_luong_san = 4;
-  so_luong_dv = 4;
-  so_luong_user = 1;
 }
 string xu_li_dang_nhap() {
   int chon1;
@@ -226,7 +226,7 @@ string xu_li_dang_nhap() {
   getline(cin, username);
   cout << "Mat Khau : ";
   getline(cin, pass);
-  for (int i = 0; i < so_luong_user; i++) {
+  for (int i = 0; i < NguoiDung::so_luong_user; i++) {
     if (ds_nguoi_dung[i].gettk() == username &&
         ds_nguoi_dung[i].getmk() == pass &&
         ds_nguoi_dung[i].getvaitro() == vai_tro_can_tim)
@@ -324,7 +324,7 @@ void thiet_lap_gia_thue() {
     }
   }
 }
-
+void quan_li_ds_san() {}
 void menu_admin() {
   int chon;
   while (true) {
