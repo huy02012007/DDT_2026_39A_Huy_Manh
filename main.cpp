@@ -241,10 +241,92 @@ void ve_duong_ngang(string goctrai, string gocphai, int dorong) {
   }
   cout << gocphai << "\n";
 }
+int do_rong = 55;
+void thiet_lap_gia_thue() {
+  int chon;
+  long long gio_thuong = 30000;
+  long long gio_cao_diem = 40000;
+  long long gio_cuoi_tuan = 50000;
+  while (true) {
+    ve_duong_ngang("┌", "┐", do_rong);
+    cout << "│" << left << setw(do_rong) << "                THIET LAP BANG GIA"
+         << "│\n";
+    ve_duong_ngang("├", "┤", do_rong);
+    cout << "│" << left << setw(do_rong) << "[1] Xem bang gia hien tai"
+         << "│\n";
+    cout << "│" << left << setw(do_rong)
+         << "[2] Thiet lap gia thuong (0h -> 16h)"
+         << "│\n";
+    cout << "│" << left << setw(do_rong)
+         << "[3] Thiet lap gia gio cao diem (16h -> 22h)" << "│\n";
+    cout << "│" << left << setw(do_rong) << "[4] Thiet lap gia gio cuoi tuan"
+         << "│\n";
+    cout << "│" << left << setw(do_rong) << "[0] Luu du lieu va quay lai"
+         << "│\n";
+    ve_duong_ngang("└", "┘", do_rong);
+    cout << " -> Lua chon cua ban: ";
+    cin >> chon;
+    if (chon == 0) {
+      return;
+    }
+    switch (chon) {
+    case 1: {
+      while (true) {
+        string d1 = "[1] Gia hien tai gio thuong la : " + to_string(gio_thuong);
+        string d2 =
+            "[2] Gia hien tai gio cao diem la : " + to_string(gio_cao_diem);
+        string d3 =
+            "[3] Gia hien tai gio cuoi tuan la : " + to_string(gio_cuoi_tuan);
+        string d0 = "[0] Quay lai";
+        ve_duong_ngang("┌", "┐", do_rong);
+        cout << "│" << left << setw(do_rong)
+             << "             BANG GIA SAN CAU LONG HIEN TAI"
+             << "│\n";
+        ve_duong_ngang("├", "┤", do_rong);
+        cout << "│" << left << setw(do_rong) << d1 << "│\n";
+        cout << "│" << left << setw(do_rong) << d2 << "│\n";
+        cout << "│" << left << setw(do_rong) << d3 << "│\n";
+        cout << "│" << left << setw(do_rong) << d0 << "│\n";
+        ve_duong_ngang("└", "┘", do_rong);
+        cout << "Nhan phim 0 de quay lai : ";
+        int quaylai;
+        cin >> quaylai;
+        if (quaylai == 0) {
+          break;
+        }
+      }
+      break;
+    }
+    case 2: {
+      {
+        cout << "Vui long nhap gia thuong muon thay doi : ";
+        cin >> gio_thuong;
+        cout << "\033[31m -> Da cap nhap hoan tat!\033[0m\n";
+      }
+      break;
+    }
+    case 3: {
+      {
+        cout << "Vui long nhap gia gio cao diem muon thay doi : ";
+        cin >> gio_cao_diem;
+        cout << "\033[31m -> Da cap nhap hoan tat!\033[0m\n";
+      }
+      break;
+    }
+    case 4: {
+      {
+        cout << "Vui long nhap gia cuoi tuan muon thay doi : ";
+        cin >> gio_cuoi_tuan;
+        cout << "\033[31m -> Da cap nhap hoan tat!\033[0m\n";
+      }
+      break;
+    }
+    }
+  }
+}
+
 void menu_admin() {
   int chon;
-  int do_rong = 55;
-
   while (true) {
     ve_duong_ngang("┌", "┐", do_rong);
     cout << "│" << left << setw(do_rong)
@@ -272,6 +354,7 @@ void menu_admin() {
     case 1:
       break;
     case 2:
+      thiet_lap_gia_thue();
       break;
     case 3:
       break;
