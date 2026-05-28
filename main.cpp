@@ -492,9 +492,74 @@ void quan_li_kho_hang() {
         }
         if (tc == true) {
           cout << "\033[32m -> Da them san pham thanh cong!\033[0m\n";
+        } else {
+          cout << "\033[31m -> Loi: Khong tim thay mat hang nay trong "
+                  "kho!\033[0m\n";
         }
 
         break;
+      }
+      break;
+    }
+    case 3: {
+      int lua_chon_phu;
+      cout << "\n -> Chon [1] Them SP moi | [2] Xoa SP | [0] Huy : ";
+      cin >> lua_chon_phu;
+
+      if (lua_chon_phu == 1) {
+        int so_luong_them;
+        cout << "-> Nhap so luong mat hang muon them: ";
+        cin >> so_luong_them;
+
+        for (int i = 0; i < so_luong_them; i++) {
+          string id_moi, ten_moi;
+          long long gia_moi;
+          int sl_moi;
+
+          cout << "\n--- Nhap thong tin mon thu " << i + 1 << " ---\n";
+          cout << "Nhap ID (vd: DV05): ";
+          cin >> id_moi;
+          cin.ignore();
+
+          cout << "Nhap Ten mat hang: ";
+          getline(cin, ten_moi);
+
+          cout << "Nhap Gia ban: ";
+          cin >> gia_moi;
+
+          cout << "Nhap So luong ton kho: ";
+          cin >> sl_moi;
+
+          int vi_tri_moi = DichVu::so_luong_dv;
+          ds_dichvu[vi_tri_moi] = DichVu(id_moi, ten_moi, gia_moi, sl_moi);
+        }
+        cout << "\033[32m -> Da them " << so_luong_them
+             << " mat hang thanh cong!\033[0m\n";
+
+      } else if (lua_chon_phu == 2) {
+        string id_xoa;
+        cout << "-> Nhap Ma SP muon xoa (vd: DV02): ";
+        cin >> id_xoa;
+
+        int vi_tri = -1;
+        for (int i = 0; i < DichVu::so_luong_dv; i++) {
+          if (ds_dichvu[i].getIDsp() == id_xoa) {
+            vi_tri = i;
+            break;
+          }
+        }
+
+        if (vi_tri == -1) {
+          cout << "\033[31m -> Loi: Khong tim thay Ma SP nay trong "
+                  "kho!\033[0m\n";
+        } else {
+          for (int i = vi_tri; i < DichVu::so_luong_dv - 1; i++) {
+            ds_dichvu[i] = ds_dichvu[i + 1];
+          }
+          DichVu::so_luong_dv--;
+          cout << "\033[32m -> Da xoa san pham " << id_xoa
+               << " thanh cong!\033[0m\n";
+        }
       }
       break;
     }
