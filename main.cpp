@@ -144,6 +144,9 @@ public:
     SoLuongTonKho = soluong;
     so_luong_dv++;
   }
+  void nhap_them_hang(int so_luong_nhap) {
+    SoLuongTonKho = SoLuongTonKho + so_luong_nhap;
+  }
   string getIDsp() { return IDsp; }
   string gettensp() { return tensp; }
   long long getdongia() { return DonGia; }
@@ -463,6 +466,35 @@ void quan_li_kho_hang() {
         if (quaylai == 0) {
           break;
         }
+      }
+      break;
+    }
+    case 2: {
+      while (true) {
+        string nhap_kho;
+        bool tc;
+        cout << "-> Nhap mat hang muon nhap kho: ";
+        cin.ignore();
+        getline(cin, nhap_kho);
+        cout << "\n";
+        cout << "-> Nhap so luong : ";
+        long long so_luong;
+        cin >> so_luong;
+        while (so_luong <= 0) {
+          cout << "So luong phai lon hon 0. Nhap lai : ";
+          cin >> so_luong;
+        }
+        for (int i = 0; i < DichVu::so_luong_dv; i++) {
+          if (nhap_kho == ds_dichvu[i].gettensp()) {
+            ds_dichvu[i].nhap_them_hang(so_luong);
+            tc = true;
+          }
+        }
+        if (tc == true) {
+          cout << "\033[32m -> Da them san pham thanh cong!\033[0m\n";
+        }
+
+        break;
       }
       break;
     }
