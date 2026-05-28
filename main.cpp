@@ -246,11 +246,11 @@ void ve_duong_ngang(string goctrai, string gocphai, int dorong) {
   cout << gocphai << "\n";
 }
 int do_rong = 55;
+int gio_thuong = 30000;
+int gio_cao_diem = 40000;
+int gio_cuoi_tuan = 30000;
 void thiet_lap_gia_thue() {
   int chon;
-  long long gio_thuong = 30000;
-  long long gio_cao_diem = 40000;
-  long long gio_cuoi_tuan = 50000;
   while (true) {
     ve_duong_ngang("┌", "┐", do_rong);
     cout << "│" << left << setw(do_rong) << "                THIET LAP BANG GIA"
@@ -345,6 +345,9 @@ void quan_li_ds_san() {
     ve_duong_ngang("└", "┘", do_rong);
     cout << " -> Lua chon cua ban: ";
     cin >> chon;
+    if (chon == 0) {
+      break;
+    }
     switch (chon) {
     case 1: {
       while (true) {
@@ -405,7 +408,65 @@ void quan_li_ds_san() {
       break;
     }
     }
-    break;
+  }
+}
+void quan_li_kho_hang() {
+  int chon;
+  while (true) {
+    ve_duong_ngang("┌", "┐", do_rong);
+    cout << "│" << left << setw(do_rong)
+         << "         MENU QUAN LI SAN PHAM KHO HANG"
+         << "│\n";
+    ve_duong_ngang("├", "┤", do_rong);
+    cout << "│" << left << setw(do_rong)
+         << "[1] Xem danh sach san pham  hien tai"
+         << "│\n";
+    cout << "│" << left << setw(do_rong) << "[2] Them san phan"
+         << "│\n";
+    cout << "│" << left << setw(do_rong) << "[3] Xoa san pham" << "│\n";
+    cout << "│" << left << setw(do_rong) << "[0] Luu du lieu va quay lai"
+         << "│\n";
+    ve_duong_ngang("└", "┘", do_rong);
+    cout << " -> Lua chon cua ban: ";
+    cin >> chon;
+    if (chon == 0) {
+      break;
+    }
+    switch (chon) {
+
+    case 1: {
+      while (true) {
+        int do_rong = 69;
+        ve_duong_ngang("┌", "┐", do_rong);
+        cout << "│" << left << setw(do_rong)
+             << "                DANH SACH SAN PHAM KHO HANG"
+             << "│\n";
+        ve_duong_ngang("├", "┤", do_rong);
+        cout << "│" << left << setw(12) << "  MA SP"
+             << "│" << left << setw(22) << "  TEN SP"
+             << "│" << left << setw(15) << "  GIA BAN SP"
+             << "│" << left << setw(do_rong - 53) << "  SO LUONG SP" << " │\n";
+        ve_duong_ngang("├", "┤", do_rong);
+
+        for (int i = 0; i < DichVu::so_luong_dv; i++) {
+          cout << "│" << left << setw(12) << ("  " + ds_dichvu[i].getIDsp())
+               << "│" << left << setw(22) << ("  " + ds_dichvu[i].gettensp())
+               << "│" << left << setw(15)
+               << ("  " + to_string(ds_dichvu[i].getdongia())) << "│" << left
+               << setw(do_rong - 53)
+               << ("  " + to_string(ds_dichvu[i].getsoluongtonkho())) << " │\n";
+        }
+        ve_duong_ngang("└", "┘", do_rong);
+        cout << "-> Nhan phim 0 de quay lai : ";
+        int quaylai;
+        cin >> quaylai;
+        if (quaylai == 0) {
+          break;
+        }
+      }
+      break;
+    }
+    }
   }
 }
 void menu_admin() {
@@ -443,6 +504,7 @@ void menu_admin() {
       quan_li_ds_san();
       break;
     case 4:
+      quan_li_kho_hang();
       break;
     case 5:
       break;
