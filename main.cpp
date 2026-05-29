@@ -566,6 +566,33 @@ void quan_li_kho_hang() {
     }
   }
 }
+void menu_staff() {
+  int chon;
+  while (true) {
+    ve_duong_ngang("┌", "┐", do_rong);
+    cout << "│" << left << setw(do_rong)
+         << "               MENU QUAN LY (ADMIN)" << "│\n";
+    ve_duong_ngang("├", "┤", do_rong);
+    cout << "│" << left << setw(do_rong)
+         << " [1] Xem danh sach va trang thai san" << "│\n";
+    cout << "│" << left << setw(do_rong) << " [2] Dat san cho khach hang"
+         << "│\n";
+    cout << "│" << left << setw(do_rong) << " [3] Check-in khach den choi"
+         << "│\n";
+    cout << "│" << left << setw(do_rong) << " [4] Goi dich vu" << "│\n";
+    cout << "│" << left << setw(do_rong)
+         << " [5] Check-out va Thanh toan hoa don" << "│\n";
+    cout << "│" << left << setw(do_rong)
+         << " [6] Quan ly thong tin khach hang thanh vien" << "│\n";
+
+    cout << "│" << left << setw(do_rong) << " [0] Dang xuat khoi he thong"
+         << "│\n";
+    ve_duong_ngang("└", "┘", do_rong);
+    cout << " -> Lua chon cua ban: ";
+    cin >> chon;
+    break;
+  }
+}
 void menu_admin() {
   int chon;
   while (true) {
@@ -593,6 +620,7 @@ void menu_admin() {
     cin >> chon;
     switch (chon) {
     case 1:
+      menu_staff();
       break;
     case 2:
       thiet_lap_gia_thue();
@@ -634,7 +662,7 @@ int main() {
       if (role == "admin")
         menu_admin();
       else if (role == "staff")
-        cout << "Bang dieu khien staff";
+        menu_staff();
       else if (role == "")
         cout << "Dang nhap that bai!";
     }
