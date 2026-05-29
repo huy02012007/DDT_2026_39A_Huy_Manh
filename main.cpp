@@ -331,6 +331,23 @@ void thiet_lap_gia_thue() {
     }
   }
 }
+void hien_thi_trang_thai_san() {
+  ve_duong_ngang("┌", "┐", do_rong);
+  cout << "│" << left << setw(do_rong) << "             DANH SACH SAN CAU LONG"
+       << "│\n";
+  ve_duong_ngang("├", "┤", do_rong);
+  cout << "│ " << left << setw(12) << "  MA SAN"
+       << "│ " << left << setw(22) << "      TEN SAN"
+       << "│ " << left << setw(do_rong - 39) << "   TRANG THAI" << "│\n";
+  ve_duong_ngang("├", "┤", do_rong);
+  for (int i = 0; i < CauLong::so_luong_san; i++) {
+    cout << "│ " << left << setw(12) << ("  " + ds_san[i].getID()) << "│ "
+         << left << setw(22) << ("   " + ds_san[i].getTenSan()) << "│ " << left
+         << setw(do_rong - 39) << ("      " + ds_san[i].getTrangThai())
+         << "│\n";
+  }
+  ve_duong_ngang("└", "┘", do_rong);
+}
 void quan_li_ds_san() {
   int chon;
   while (true) {
@@ -354,22 +371,7 @@ void quan_li_ds_san() {
     switch (chon) {
     case 1: {
       while (true) {
-        ve_duong_ngang("┌", "┐", do_rong);
-        cout << "│" << left << setw(do_rong)
-             << "             DANH SACH SAN CAU LONG"
-             << "│\n";
-        ve_duong_ngang("├", "┤", do_rong);
-        cout << "│ " << left << setw(12) << "  MA SAN"
-             << "│ " << left << setw(22) << "      TEN SAN"
-             << "│ " << left << setw(do_rong - 39) << "   TRANG THAI" << "│\n";
-        ve_duong_ngang("├", "┤", do_rong);
-        for (int i = 0; i < CauLong::so_luong_san; i++) {
-          cout << "│ " << left << setw(12) << ("  " + ds_san[i].getID()) << "│ "
-               << left << setw(22) << ("   " + ds_san[i].getTenSan()) << "│ "
-               << left << setw(do_rong - 39)
-               << ("      " + ds_san[i].getTrangThai()) << "│\n";
-        }
-        ve_duong_ngang("└", "┘", do_rong);
+        hien_thi_trang_thai_san();
         cout << "-> Nhan phim 0 de quay lai : ";
         int quaylai;
         cin >> quaylai;
@@ -510,37 +512,29 @@ void quan_li_kho_hang() {
         int so_luong_them;
         cout << "-> Nhap so luong mat hang muon them: ";
         cin >> so_luong_them;
-
         for (int i = 0; i < so_luong_them; i++) {
           string id_moi, ten_moi;
           long long gia_moi;
           int sl_moi;
-
           cout << "\n--- Nhap thong tin mon thu " << i + 1 << " ---\n";
           cout << "Nhap ID (vd: DV05): ";
           cin >> id_moi;
           cin.ignore();
-
           cout << "Nhap Ten mat hang: ";
           getline(cin, ten_moi);
-
           cout << "Nhap Gia ban: ";
           cin >> gia_moi;
-
           cout << "Nhap So luong ton kho: ";
           cin >> sl_moi;
-
           int vi_tri_moi = DichVu::so_luong_dv;
           ds_dichvu[vi_tri_moi] = DichVu(id_moi, ten_moi, gia_moi, sl_moi);
         }
         cout << "\033[32m -> Da them " << so_luong_them
              << " mat hang thanh cong!\033[0m\n";
-
       } else if (lua_chon_phu == 2) {
         string id_xoa;
         cout << "-> Nhap Ma SP muon xoa (vd: DV02): ";
         cin >> id_xoa;
-
         int vi_tri = -1;
         for (int i = 0; i < DichVu::so_luong_dv; i++) {
           if (ds_dichvu[i].getIDsp() == id_xoa) {
@@ -548,7 +542,6 @@ void quan_li_kho_hang() {
             break;
           }
         }
-
         if (vi_tri == -1) {
           cout << "\033[31m -> Loi: Khong tim thay Ma SP nay trong "
                   "kho!\033[0m\n";
@@ -571,7 +564,7 @@ void menu_staff() {
   while (true) {
     ve_duong_ngang("┌", "┐", do_rong);
     cout << "│" << left << setw(do_rong)
-         << "               MENU QUAN LY (ADMIN)" << "│\n";
+         << "               MENU QUAN LY (STAFF)" << "│\n";
     ve_duong_ngang("├", "┤", do_rong);
     cout << "│" << left << setw(do_rong)
          << " [1] Xem danh sach va trang thai san" << "│\n";
@@ -590,7 +583,22 @@ void menu_staff() {
     ve_duong_ngang("└", "┘", do_rong);
     cout << " -> Lua chon cua ban: ";
     cin >> chon;
-    break;
+
+    switch (chon) {
+    case 1: {
+      while (true) {
+        hien_thi_trang_thai_san();
+        int quaylai;
+        cout << "-> Nhan phim 0 de quay lai : ";
+        cin >> quaylai;
+        if (quaylai == 0) {
+          break;
+        }
+      }
+    }
+    case 2: {
+    }
+    }
   }
 }
 void menu_admin() {
