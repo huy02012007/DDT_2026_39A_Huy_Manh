@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <ctime>
 #include <iomanip>
 #include <string>
 using namespace std;
@@ -181,6 +182,7 @@ private:
   Date NgayDat;
   Time GioBatDau;
   Time GioKetThuc;
+  Time gio_thuc_te;
   string IDdich_vu_da_dat[20];
   int so_luong_dich_vu_da_dat[20];
   int dem_so_luong_dat;
@@ -200,6 +202,7 @@ public:
     dem_so_luong_dat = 0;
     so_luong_san_da_dat++;
   }
+  void setgiothucte(Time gio_khac) { gio_thuc_te = gio_khac; }
   string getID_dat_hang() { return ID_dat_hang; }
   string getSDT_khach() { return SDT_khach; }
   string getIDsan() { return IDsan; }
@@ -743,6 +746,35 @@ void menu_staff() {
       if (!trung_lich) {
         cout
             << "\033[1;32m=> Lich trong! Hop le! Tien hanh luu don...\033[0m\n";
+      }
+      ds_san_da_dat[DatVatDung::so_luong_san_da_dat] =
+          DatVatDung(ten, sdt, IDsan, "Booked", ngay_choi, start, end);
+    }
+    case 3: {
+      string sdt;
+      cout << "Vui long nhap so dien thoai : ";
+      cin >> sdt;
+      bool tim_thay = false;
+      for (int i = 0; i < DatVatDung::so_luong_san_da_dat; i++) {
+        if (sdt == ds_san_da_dat[i].getSDT_khach()) {
+          ds_san_da_dat[i].setTrangThai("Playing");
+          time_t now = time(0);
+          tm *ltm = localtime(&now);
+          Time gio_thuc_te;
+          gio_thuc_te.gio = ltm->tm_hour;
+          gio_thuc_te.phut = ltm->tm_min;
+          cout << "\033[1;32m\n=> CHECK-IN THANH CONG!\033[0m\n";
+          cout << "\033[1;36mTrang thai don: Dang Choi (Playing)\033[0m\n";
+          cout << "\033[1;36mGio vao san thuc te: " << gio_thuc_te.gio << ":"
+               << gio_thuc_te.phut << "\033[0m\n";
+          tim_thay = true;
+          ds_san_da_dat[i].setgiothucte(gio_thuc_te);
+          break;
+        }
+      }
+      if (tim_thay == false) {
+        cout << "\033[1;31m=> Khong tim thay don dat san nao khop voi thong "
+                "tin vua nhap!\033[0m\n";
       }
     }
     }
