@@ -150,6 +150,7 @@ private:
   string tensp;
   long long DonGia;
   int SoLuongTonKho;
+  int so_luong_mua;
 
 public:
   static int so_luong_dv;
@@ -161,6 +162,7 @@ public:
     SoLuongTonKho = soluong;
     so_luong_dv++;
   }
+
   void nhap_them_hang(int so_luong_nhap) {
     SoLuongTonKho = SoLuongTonKho + so_luong_nhap;
   }
@@ -169,6 +171,7 @@ public:
   long long getdongia() { return DonGia; }
   int getsoluongtonkho() { return SoLuongTonKho; }
   void ton_kho_sau_khi_ban(int so_luong_mua) {
+    this->so_luong_mua = so_luong_mua;
     SoLuongTonKho = SoLuongTonKho - so_luong_mua;
   }
 };
@@ -210,6 +213,7 @@ public:
   Date getNgayDat() { return NgayDat; }
   Time getGioBatDau() { return GioBatDau; }
   Time getGioKetThuc() { return GioKetThuc; }
+
   void setTrangThai(string tt) { TrangThai = tt; }
   void them_dich_vu(string id_dich_vu, int so_luong) {
     IDdich_vu_da_dat[dem_so_luong_dat] = id_dich_vu;
@@ -234,7 +238,7 @@ void khoi_tao_gia_tri() {
   ds_san = new CauLong[20];
   ds_dichvu = new DichVu[50];
   ds_nguoi_dung = new NguoiDung[20];
-  ds_san_da_dat[0] = DatVatDung("SNT01", "0868880087", "SNT01", "Onl",
+  ds_san_da_dat[0] = DatVatDung("Huy", "0868880087", "SNT01", "Playing",
                                 {02, 01, 2007}, {18, 0}, {19, 00});
   ds_khach_hang[0] = KhachHang("Huy", "0868880087", 0);
   ds_san[0] = CauLong("SNT01", "SAN THUONG 1", "Booked");
@@ -747,6 +751,7 @@ void menu_staff() {
         cout
             << "\033[1;32m=> Lich trong! Hop le! Tien hanh luu don...\033[0m\n";
       }
+      break;
       ds_san_da_dat[DatVatDung::so_luong_san_da_dat] =
           DatVatDung(ten, sdt, IDsan, "Booked", ngay_choi, start, end);
     }
@@ -776,6 +781,75 @@ void menu_staff() {
         cout << "\033[1;31m=> Khong tim thay don dat san nao khop voi thong "
                 "tin vua nhap!\033[0m\n";
       }
+      break;
+    }
+    case 4: {
+
+      ve_duong_ngang("┌", "┐", do_rong);
+      cout << "│" << left << setw(do_rong)
+           << "               DANH SACH SAN DANG CHOI" << "│\n";
+      ve_duong_ngang("├", "┤", do_rong);
+
+      for (int i = 0; i < DatVatDung::so_luong_san_da_dat; i++) {
+        if (ds_san_da_dat[i].getTrangThai() == "Playing") {
+          cout << "│" << left << setw(do_rong - 35)
+               << ds_san_da_dat[i].getIDsan() << left << setw(do_rong - 35)
+               << ds_san_da_dat[i].getSDT_khach() << left << setw(15)
+               << ds_san_da_dat[i].getID_dat_hang() << "│\n";
+        }
+        ve_duong_ngang("└", "┘", do_rong);
+      }
+      cout << "-> Chon ID San de goi them dich vu: ";
+      string IDsan;
+      int do_rong = 69;
+      cin.ignore();
+      getline(cin, IDsan);
+      for (int i = 0; i < DatVatDung::so_luong_san_da_dat; i++) {
+        if (IDsan == ds_san_da_dat[i].getIDsan()) {
+
+          ve_duong_ngang("┌", "┐", do_rong);
+          cout << "│" << left << setw(do_rong)
+               << "                   DANH SACH KHO HANG" << "│\n";
+          ve_duong_ngang("├", "┤", do_rong);
+          cout << "│" << left << setw(12) << "  MA SP"
+               << "│" << left << setw(22) << "  TEN SP"
+               << "│" << left << setw(15) << "  GIA BAN SP"
+               << "│" << left << setw(do_rong - 53) << "  SO LUONG SP"
+               << " │\n";
+
+          ve_duong_ngang("├", "┤", do_rong);
+          for (int i = 0; i < DichVu::so_luong_dv; i++) {
+            cout << "│" << left << setw(12) << ("  " + ds_dichvu[i].getIDsp())
+                 << "│" << left << setw(22) << ("  " + ds_dichvu[i].gettensp())
+                 << "│" << left << setw(15)
+                 << ("  " + to_string(ds_dichvu[i].getdongia())) << "│" << left
+                 << setw(do_rong - 53)
+                 << ("  " + to_string(ds_dichvu[i].getsoluongtonkho()))
+                 << " │\n";
+          }
+          ve_duong_ngang("└", "┘", do_rong);
+        }
+      }
+      string ID_mua_hang;
+      int so_luong;
+      cout << "-> Chon ID san pham muon mua: ";
+      getline(cin, ID_mua_hang);
+      for (int i = 0; i < DichVu::so_luong_dv; i++) {
+        if (ID_mua_hang == ds_dichvu[i].getIDsp()) {
+          cout << "-> Nhap so luong: ";
+          cin >> so_luong;
+          while (so_luong > ds_dichvu[i].getsoluongtonkho()) {
+            cout << "\033[1;31m-> So luong ton kho hien tai khong du! Vui long "
+                    "nhap lai: \033[0m";
+            cin >> so_luong;
+            break;
+          }
+          cout << "\033[1;32m-> Da dat hang thanh cong\033[0m\n";
+        }
+        ds_dichvu[i].ton_kho_sau_khi_ban(so_luong);
+      }
+    }
+    case 5: {
     }
     }
   }
