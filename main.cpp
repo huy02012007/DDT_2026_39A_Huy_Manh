@@ -601,7 +601,98 @@ void quan_li_kho_hang() {
     }
   }
 }
+void tk_staff() {
+  int chon5;
+  while (true) {
+    ve_duong_ngang("┌", "┐", do_rong);
+    cout << "│" << left << setw(do_rong)
+         << "         QUAN LY TAI KHOAN NHAN VIEN" << "│\n";
+    ve_duong_ngang("├", "┤", do_rong);
+    cout << "│" << left << setw(do_rong) << " [1] Xem danh sach nhan vien"
+         << "│\n";
+    cout << "│" << left << setw(do_rong)
+         << " [2] Them nhan vien moi (Tu dong tao TK)" << "│\n";
+    cout << "│" << left << setw(do_rong) << " [3] Xoa tai khoan nhan vien"
+         << "│\n";
+    cout << "│" << left << setw(do_rong) << " [0] Quay lai" << "│\n";
+    ve_duong_ngang("└", "┘", do_rong);
+    cout << " -> Lua chon cua ban: ";
+    cin >> chon5;
 
+    if (chon5 == 0)
+      break;
+
+    switch (chon5) {
+    case 1: {
+      int chon;
+      ve_duong_ngang("┌", "┐", do_rong);
+      cout << "│ " << left << setw(15) << "Ho Ten"
+           << "│ " << left << setw(12) << "SDT"
+           << "│ " << left << setw(9) << "Tai khoan "
+           << "│ " << left << setw(11) << "Mat khau" << "│\n";
+      ve_duong_ngang("├", "┤", do_rong);
+      for (int i = 0; i < NguoiDung::so_luong_user; i++) {
+        if (ds_nguoi_dung[i].getvaitro() == "staff") {
+          cout << "│ " << left << setw(15) << ds_nguoi_dung[i].getHoTen()
+               << "│ " << left << setw(12) << ds_nguoi_dung[i].getSDT() << "│ "
+               << left << setw(9) << ds_nguoi_dung[i].gettk() << "│ " << left
+               << setw(11) << ds_nguoi_dung[i].getmk() << "│\n";
+        }
+      }
+      ve_duong_ngang("└", "┘", do_rong);
+      cout << "-> Chon 0 de quay lai: ";
+      cin >> chon;
+      if (chon == '0') {
+        return;
+      }
+      break;
+    }
+    case 2: {
+      string ten, sdt;
+      cin.ignore();
+      cout << "-> Nhap Ho Ten nhan vien: ";
+      getline(cin, ten);
+      cout << "-> Nhap So dien thoai: ";
+      getline(cin, sdt);
+
+      string tk_moi = sdt;
+      string mk_moi = "123456";
+
+      int vitri_moi = NguoiDung::so_luong_user;
+      ds_nguoi_dung[vitri_moi] = NguoiDung(ten, sdt, tk_moi, mk_moi, "staff");
+
+      cout << "\033[1;32m\n=> Them nhan vien thanh cong!\033[0m\n";
+      cout << "   Tài khoản duoc cap : \033[1;33m" << tk_moi << "\033[0m\n";
+      cout << "   Mật khẩu mac dinh  : \033[1;33m" << mk_moi << "\033[0m\n\n";
+      break;
+    }
+    case 3: {
+      string tk_xoa;
+      cout << "-> Nhap Tai khoan nhan vien can xoa: ";
+      cin >> tk_xoa;
+      int vi_tri = -1;
+      for (int i = 0; i < NguoiDung::so_luong_user; i++) {
+        if (ds_nguoi_dung[i].gettk() == tk_xoa &&
+            ds_nguoi_dung[i].getvaitro() == "staff") {
+          vi_tri = i;
+          break;
+        }
+      }
+      if (vi_tri != -1) {
+        for (int i = vi_tri; i < NguoiDung::so_luong_user - 1; i++) {
+          ds_nguoi_dung[i] = ds_nguoi_dung[i + 1];
+        }
+        NguoiDung::so_luong_user--;
+        cout << "\033[1;32m=> Da xoa tai khoan " << tk_xoa
+             << " khoi he thong!\033[0m\n";
+      } else {
+        cout << "\033[1;31m=> Khong tim thay tai khoan nay!\033[0m\n";
+      }
+      break;
+    }
+    }
+  }
+}
 void menu_staff(bool admin = false) {
   int chon;
   while (true) {
@@ -1086,6 +1177,8 @@ void menu_admin() {
       quan_li_kho_hang();
       break;
     case 5:
+      tk_staff();
+
       break;
     case 6:
       break;
