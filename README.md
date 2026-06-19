@@ -1,7 +1,7 @@
 <div align="center">
   <h1 align="center">🏸 HỆ THỐNG QUẢN LÝ SÂN CẦU LÔNG (BADMINTON COURT POS)</h1>
   <p align="center">
-    <strong>Đồ án PBL01: lập trình (Project Based Learning 1)</strong>
+    <strong>Đồ án PBL01: Dự án lập trình (Project Based Learning 1)</strong>
     <br />
     <i>Chuyên ngành: Kỹ thuật Máy tính - Trường Đại học Bách Khoa (DUT)</i>
   </p>
@@ -32,7 +32,7 @@ Hệ thống được module hóa thành các phân hệ chức năng riêng bi�
   - Tích lũy điểm sau mỗi lần thanh toán và phân hạng tự động (Normal, Silver, Gold, VIP) để tính toán chiết khấu giảm giá.
 - **Point of Sale (POS) - Xử lý hóa đơn:** Gọi thêm dịch vụ (Nước uống, thuê vợt, mua cầu) trực tiếp khi khách đang ở trên sân. Tự động trừ số lượng hàng tồn kho và gộp thẳng vào hóa đơn tính tiền cuối cùng.
 
-## 🧠 3. Nền tảng Kỹ thuật
+## 🧠 3. Nền tảng Kỹ thuật & Cấu trúc Dữ liệu
 
 Dự án là minh chứng cho việc vận dụng kiến thức lý thuyết vào giải quyết bài toán thực tế:
 1. **Object-Oriented Programming (OOP):** Xây dựng hệ thống Class phức tạp (`KhachHang`, `NguoiDung`, `CauLong`, `DichVu`, `DatVatDung`). Vận dụng tính Đóng gói (Encapsulation) để bảo vệ dữ liệu nhạy cảm và tính Kế thừa (Inheritance) để tối ưu hóa mã nguồn.
@@ -47,14 +47,14 @@ Dự án là minh chứng cho việc vận dụng kiến thức lý thuyết và
 **Bước 1: Tải mã nguồn về máy**
 Mở Terminal/Command Prompt và chạy lệnh:
 ```bash
-git clone https://github.com/huy02012007/DDTuan-PBL01-NHP39A-Nhom03.git
-cd DDTuan-PBL01-NHP39A-Nhom03
+git clone https://github.com/huy02012007/DDT_2026_39A_Huy_Manh.git
+cd DDT_2026_39A_Huy_Manh
 ```
 
 **Bước 2: Biên dịch chương trình (Compile)**
-Chạy lệnh g++ để biên dịch file `main.cpp`:
+Chạy lệnh g++ để biên dịch file `main.cpp` nằm trong thư mục `code`:
 ```bash
-g++ main.cpp -o quanlysan
+g++ code/main.cpp -o quanlysan
 ```
 
 **Bước 3: Khởi chạy (Run)**
@@ -75,12 +75,12 @@ Hệ thống đã được khởi tạo sẵn một số dữ liệu mẫu và t
 
 *(Từ tài khoản Admin này, giảng viên có thể tự do cấp phát thêm tài khoản cho Staff để test các phân hệ chức năng khác).*
 
-## 👥 5. Thành viên Nhóm Phát triển (Nhóm 03)
+## 👥 5. Thành viên Nhóm Phát triển
 
 | STT | Họ và Tên | Mã Sinh Viên (MSV) | Vai trò & Nhiệm vụ trong dự án |
 | :---: | :--- | :---: | :--- |
-| 1 | **Nguyễn Hữu Huy** | `106250074` | **Trưởng nhóm.** Thiết kế kiến trúc OOP cốt lõi; Xử lý thuật toán Đặt sân, Check-in/Check-out thời gian thực; Cấu hình module Tính tiền và Báo cáo doanh thu. |
-| 2 | **Nguyễn Hữu Mạnh** | `106250192` | **Thành viên.** Xử lý logic phân quyền Admin/Staff; Quản lý kho hàng dịch vụ; Xây dựng hệ thống Khách hàng (tích điểm/phân hạng) & Thực hiện kiểm thử (Testing). |
+| 1 | **H. Huy** | `106250074` | **Trưởng nhóm.** Thiết kế kiến trúc OOP cốt lõi; Xử lý thuật toán Đặt sân, Check-in/Check-out thời gian thực; Cấu hình module Tính tiền và Báo cáo doanh thu. |
+| 2 | **Mạnh** | `106250192` | **Thành viên.** Xử lý logic phân quyền Admin/Staff; Quản lý kho hàng dịch vụ; Xây dựng hệ thống Khách hàng (tích điểm/phân hạng) & Thực hiện kiểm thử (Testing). |
 
 ---
-*Dự án được thực hiện dưới sự hướng dẫn của **Thầy D.Tuấn** (Mã HP: NH.39A).*
+*Dự án được thực hiện dưới sự hướng dẫn của **Thầy D. D. Tuấn** (Mã HP: NHP39A).*
