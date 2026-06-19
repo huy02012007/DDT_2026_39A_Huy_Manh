@@ -175,9 +175,10 @@ public:
   long long getdongia() { return DonGia; }
   int getsoluongtonkho() { return SoLuongTonKho; }
   void ton_kho_sau_khi_ban(int so_luong_mua) {
-    this->so_luong_mua = so_luong_mua;
+    this->so_luong_mua += so_luong_mua;
     SoLuongTonKho = SoLuongTonKho - so_luong_mua;
   }
+  int getSoLuongDaBan() { return so_luong_mua; }
 };
 int DichVu::so_luong_dv = 0;
 class DatVatDung : public CauLong {
@@ -194,6 +195,7 @@ private:
   string IDdich_vu_da_dat[20];
   int so_luong_dich_vu_da_dat[20];
   int dem_so_luong_dat;
+  long long TongTienBill = 0;
 
 public:
   static int so_luong_san_da_dat;
@@ -211,6 +213,8 @@ public:
     dem_so_luong_dat = 0;
     so_luong_san_da_dat++;
   }
+  void setTongTienBill(long long tien) { TongTienBill = tien; }
+  long long getTongTienBill() { return TongTienBill; }
   void setgiothuctelucve(Time gio_khac_luc_ve) {
     gio_thuc_te_luc_ve = gio_khac_luc_ve;
   }
@@ -642,7 +646,7 @@ void tk_staff() {
       ve_duong_ngang("└", "┘", do_rong);
       cout << "-> Chon 0 de quay lai: ";
       cin >> chon;
-      if (chon == '0') {
+      if (chon == 0) {
         return;
       }
       break;
@@ -740,6 +744,14 @@ void menu_staff(bool admin = false) {
       string start_nhap, end_nhap;
       string IDsan;
 
+      time_t hientai = time(0);
+      tm *ltm_ht = localtime(&hientai);
+      int nam_ht = 1900 + ltm_ht->tm_year;
+      int thang_ht = 1 + ltm_ht->tm_mon;
+      int ngay_ht = ltm_ht->tm_mday;
+      int gio_ht = ltm_ht->tm_hour;
+      int phut_ht = ltm_ht->tm_min;
+
       cout << "Vui long nhap sdt : ";
       cin >> sdt;
       cout << "Vui long nhap ma san muon dat : ";
@@ -761,13 +773,10 @@ void menu_staff(bool admin = false) {
         getline(cin, ten);
         int vitri_khach = KhachHang::so_luong_hoi_vien;
         ds_khach_hang[vitri_khach] = KhachHang(ten, sdt, 0);
-        ds_khach_hang[KhachHang::so_luong_hoi_vien] = KhachHang(ten, sdt, 0);
-        KhachHang::so_luong_hoi_vien++;
-
         cout << "\033[1;32mCap nhat thanh cong thanh vien moi!\033[0m\n";
       }
 
-      cout << "Vui long chon ngay choi(YYYY-MM-DD) : ";
+      cout << "Vui long chon ngay choi (YYYY-MM-DD) : ";
       getline(cin, ngay_choi_nhap);
 
       bool ngay_hop_le = false;
@@ -795,9 +804,10 @@ void menu_staff(bool admin = false) {
           }
         }
 
-        if (nam < 2026 || thang < 1 || thang > 12 || ngay < 1 ||
-            ngay > ngay_max) {
-          cout << "\033[1;31mNgay khong ton tai hoac o trong qua khu! Nhap lai "
+        if (nam < nam_ht || (nam == nam_ht && thang < thang_ht) ||
+            (nam == nam_ht && thang == thang_ht && ngay < ngay_ht) ||
+            thang < 1 || thang > 12 || ngay < 1 || ngay > ngay_max) {
+          cout << "\033[1;31mNgay khong hop le hoac o trong qua khu! Nhap lai "
                   ": \033[0m";
           getline(cin, ngay_choi_nhap);
         } else {
@@ -808,28 +818,34 @@ void menu_staff(bool admin = false) {
         }
       }
 
-      cout << "Vui long nhap thoi gian bat dau choi(HH:MM) : ";
+      cout << "Vui long nhap thoi gian bat dau choi (HH:MM) : ";
       getline(cin, start_nhap);
       start.gio = stoi(start_nhap.substr(0, 2));
       start.phut = stoi(start_nhap.substr(3, 2));
 
       while (start.gio < 0 || start.gio > 23 || start.phut < 0 ||
-             start.phut > 59) {
-        cout << "\033[1;31mThoi gian khong hop le! Vui long nhap lai (HH:MM) : "
-                "\033[0m";
+             start.phut > 59 ||
+             (ngay_choi.nam == nam_ht && ngay_choi.thang == thang_ht &&
+              ngay_choi.ngay == ngay_ht &&
+              (start.gio < gio_ht ||
+               (start.gio == gio_ht && start.phut <= phut_ht)))) {
+        cout << "\033[1;31mThoi gian khong hop le hoac o trong qua khu! Vui "
+                "long nhap lai (HH:MM) : \033[0m";
         getline(cin, start_nhap);
         start.gio = stoi(start_nhap.substr(0, 2));
         start.phut = stoi(start_nhap.substr(3, 2));
       }
 
-      cout << "Vui long nhap thoi gian ket thuc(HH:MM) : ";
+      cout << "Vui long nhap thoi gian ket thuc (HH:MM) : ";
       getline(cin, end_nhap);
       end.gio = stoi(end_nhap.substr(0, 2));
       end.phut = stoi(end_nhap.substr(3, 2));
 
-      while (end.gio < 0 || end.gio > 23 || end.phut < 0 || end.phut > 59) {
-        cout << "\033[1;31mThoi gian khong hop le! Vui long nhap lai (HH:MM) : "
-                "\033[0m";
+      while (end.gio < 0 || end.gio > 23 || end.phut < 0 || end.phut > 59 ||
+             (end.gio < start.gio ||
+              (end.gio == start.gio && end.phut <= start.phut))) {
+        cout << "\033[1;31mThoi gian khong hop le (phai sau gio bat dau)! Nhap "
+                "lai (HH:MM) : \033[0m";
         getline(cin, end_nhap);
         end.gio = stoi(end_nhap.substr(0, 2));
         end.phut = stoi(end_nhap.substr(3, 2));
@@ -841,7 +857,6 @@ void menu_staff(bool admin = false) {
             ngay_choi == ds_san_da_dat[i].getNgayDat() &&
             (start < ds_san_da_dat[i].getGioKetThuc() &&
              end > ds_san_da_dat[i].getGioBatDau())) {
-
           cout << "\033[1;31m=> San nay gio nay ngay nay da co nguoi "
                   "dat!\033[0m\n";
           trung_lich = true;
@@ -852,15 +867,14 @@ void menu_staff(bool admin = false) {
       if (!trung_lich) {
         cout
             << "\033[1;32m=> Lich trong! Hop le! Tien hanh luu don...\033[0m\n";
-      }
-      int vi_tri_moi = DatVatDung::so_luong_san_da_dat;
-
-      ds_san_da_dat[vi_tri_moi] =
-          DatVatDung(ten, sdt, IDsan, "Booked", ngay_choi, start, end);
-      for (int i = 0; i < CauLong::so_luong_san; i++) {
-        if (ds_san[i].getID() == IDsan) {
-          ds_san[i].setTrangThai("Booked");
-          break;
+        int vi_tri_moi = DatVatDung::so_luong_san_da_dat;
+        ds_san_da_dat[vi_tri_moi] =
+            DatVatDung(ten, sdt, IDsan, "Booked", ngay_choi, start, end);
+        for (int i = 0; i < CauLong::so_luong_san; i++) {
+          if (ds_san[i].getID() == IDsan) {
+            ds_san[i].setTrangThai("Booked");
+            break;
+          }
         }
       }
       break;
@@ -1006,9 +1020,15 @@ void menu_staff(bool admin = false) {
           long long tong_phut = gio_ra_dat.TongPhut() - gio_vao_dat.TongPhut();
           double so_gio = (double)tong_phut / 60.0;
 
-          long long tien_san = (gio_vao_dat.gio >= 16)
-                                   ? (long long)(so_gio * gio_cao_diem)
-                                   : (long long)(so_gio * gio_thuong);
+          string thu = ds_san_da_dat[i].getNgayDat().layThu();
+          long long tien_san = 0;
+          if (thu == "Thu 7" || thu == "Chu Nhat") {
+            tien_san = (long long)(so_gio * gio_cuoi_tuan);
+          } else {
+            tien_san = (gio_vao_dat.gio >= 16)
+                           ? (long long)(so_gio * gio_cao_diem)
+                           : (long long)(so_gio * gio_thuong);
+          }
 
           string hang = "Normal";
           for (int h = 0; h < KhachHang::so_luong_hoi_vien; h++) {
@@ -1083,6 +1103,7 @@ void menu_staff(bool admin = false) {
           cout << "\033[1;32m" << left << setw(22) << "THANH TOAN:" << right
                << setw(10) << tong_sau_giam << "\033[0m\n";
           cout << "================================\n";
+          ds_san_da_dat[i].setTongTienBill(tong_sau_giam);
           for (int h = 0; h < KhachHang::so_luong_hoi_vien; h++) {
             if (sdt == ds_khach_hang[h].getSDT()) {
               ds_khach_hang[h].congDiem(tong_sau_giam);
