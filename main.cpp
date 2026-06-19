@@ -1,60 +1,43 @@
 #include <bits/stdc++.h>
-#include <ctime>
-#include <iomanip>
-#include <string>
 using namespace std;
 
 struct Time {
-  int gio;
-  int phut;
-  long long TongPhut() { return gio * 60 + phut; }
+  int Gio;
+  int Phut;
+  long long TongPhut() { return Gio * 60 + Phut; }
   bool operator>(Time const &khac) {
-    int tong_phut_bat_dau = gio * 60 + phut;
-    int tong_phut_ket_thuc = khac.gio * 60 + khac.phut;
-    return tong_phut_bat_dau > tong_phut_ket_thuc;
+    int TongPhutBatDau = Gio * 60 + Phut;
+    int TongPhutKetThuc = khac.Gio * 60 + khac.Phut;
+    return TongPhutBatDau > TongPhutKetThuc;
   }
-  bool operator<(Time const &khac) {
-    int tong_phut_bat_dau = gio * 60 + phut;
-    int tong_phut_ket_thuc = khac.gio * 60 + khac.phut;
-    return tong_phut_bat_dau < tong_phut_ket_thuc;
+  bool operator<(Time const &Khac) {
+    int TongPhutBatDau = Gio * 60 + Phut;
+    int TongPhutKetThuc = Khac.Gio * 60 + Khac.Phut;
+    return TongPhutBatDau < TongPhutKetThuc;
   }
 };
 struct Date {
-  int ngay;
-  int thang;
-  int nam;
-  bool operator==(Date const &khac) {
-    return (ngay == khac.ngay && thang == khac.thang && nam == khac.nam);
+  int Ngay;
+  int Thang;
+  int Nam;
+  bool operator==(Date const &Khac) {
+    return (Ngay == Khac.Ngay && Thang == Khac.Thang && Nam == Khac.Nam);
   }
-  void cong7ngay() {
-    ngay += 7;
-    if (ngay > 28) {
-      ngay -= 28;
-      thang += 1;
-    } else if (ngay > 30) {
-      ngay -= 30;
-      thang += 1;
-    } else if (ngay > 31) {
-      ngay -= 31;
-      thang += 1;
-    } else if (thang > 12) {
-      nam += 1;
-    }
-  }
-  string layThu() {
-    int t = thang;
-    int n = nam;
+
+  string LayThu() {
+    int t = Thang;
+    int n = Nam;
 
     if (t < 3) {
       n--;
     }
 
-    int mangBuSo[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
-    int ketQua = (n + n / 4 - n / 100 + n / 400 + mangBuSo[t - 1] + ngay) % 7;
+    int MangBuSo[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+    int KetQua = (n + n / 4 - n / 100 + n / 400 + MangBuSo[t - 1] + Ngay) % 7;
 
-    string danhSachThu[] = {"Chu Nhat", "Thu 2", "Thu 3", "Thu 4",
+    string DanhSachThu[] = {"Chu Nhat", "Thu 2", "Thu 3", "Thu 4",
                             "Thu 5",    "Thu 6", "Thu 7"};
-    return danhSachThu[ketQua];
+    return DanhSachThu[KetQua];
   }
 };
 class Nguoi {
@@ -77,7 +60,7 @@ public:
   void InThongTin() {
     cout << "Nguoi dung : " << HoTen << "| So dien thoai : " << SDT << endl;
   }
-  string getHoTen() { return HoTen; }
+  string GetHoTen() { return HoTen; }
   string GetSDT() { return SDT; }
 };
 class KhachHang : public Nguoi {
@@ -198,11 +181,11 @@ private:
 public:
   static int SoLuongSanDaDat;
   DatVatDung() {}
-  DatVatDung(string ten, string sdt, string IDSan, string tt, Date ngay,
+  DatVatDung(string ten, string sdt, string MaSan, string tt, Date ngay,
              Time batdau, Time ketthuc) {
     IDKhachHang = ten;
     SDTKhach = sdt;
-    IDSan = IDSan;
+    IDSan = MaSan;
     TrangThai = tt;
     NgayDat = ngay;
     GioBatDau = batdau;
@@ -462,9 +445,10 @@ void QuanLiKhoHang() {
     cout << "│" << left << setw(DoRong)
          << "[1] Xem danh sach san pham  hien tai"
          << "│\n";
-    cout << "│" << left << setw(DoRong) << "[2] Them san phan"
+    cout << "│" << left << setw(DoRong) << "[2] Them san phan ton kho"
          << "│\n";
-    cout << "│" << left << setw(DoRong) << "[3] Xoa san pham" << "│\n";
+    cout << "│" << left << setw(DoRong) << "[3] Them hoac xoa san pham"
+         << "│\n";
     cout << "│" << left << setw(DoRong) << "[0] Luu du lieu va quay lai"
          << "│\n";
     VeDuongNgang("└", "┘", DoRong);
@@ -553,15 +537,46 @@ void QuanLiKhoHang() {
           long long GiaMoi;
           int SLMoi;
           cout << "\n--- Nhap thong tin mon thu " << i + 1 << " ---\n";
-          cout << "Nhap ID (vd: DV05): ";
-          cin >> IDMoi;
+
+          bool TrungID;
+          do {
+            TrungID = false;
+            cout << "Nhap ID: ";
+            cin >> IDMoi;
+
+            for (int k = 0; k < DichVu::SoLuongDV; k++) {
+              if (DSDichVu[k].GetIDSP() == IDMoi) {
+                TrungID = true;
+                cout << "\033[1;31m   => Loi: ID nay da co trong kho! Vui long "
+                        "nhap ma khac.\033[0m\n";
+                break;
+              }
+            }
+          } while (TrungID == true);
+
           cin.ignore();
-          cout << "Nhap Ten mat hang: ";
-          getline(cin, TenMoi);
+
+          bool TrungTen;
+          do {
+            TrungTen = false;
+            cout << "Nhap Ten mat hang: ";
+            getline(cin, TenMoi);
+
+            for (int k = 0; k < DichVu::SoLuongDV; k++) {
+              if (DSDichVu[k].GetTenSP() == TenMoi) {
+                TrungTen = true;
+                cout << "\033[1;31m   => Loi: Mat hang nay da ton tai! Vui "
+                        "long nhap ten khac.\033[0m\n";
+                break;
+              }
+            }
+          } while (TrungTen == true);
+
           cout << "Nhap Gia ban: ";
           cin >> GiaMoi;
           cout << "Nhap So luong ton kho: ";
           cin >> SLMoi;
+
           int ViTriMoi = DichVu::SoLuongDV;
           DSDichVu[ViTriMoi] = DichVu(IDMoi, TenMoi, GiaMoi, SLMoi);
         }
@@ -569,7 +584,7 @@ void QuanLiKhoHang() {
              << " mat hang thanh cong!\033[0m\n";
       } else if (LuaChonPhu == 2) {
         string IDXoa;
-        cout << "-> Nhap Ma SP muon xoa (vd: DV02): ";
+        cout << "-> Nhap Ma SP muon xoa: ";
         cin >> IDXoa;
         int ViTri = -1;
         for (int i = 0; i < DichVu::SoLuongDV; i++) {
@@ -604,8 +619,7 @@ void TKStaff() {
     VeDuongNgang("├", "┤", DoRong);
     cout << "│" << left << setw(DoRong) << " [1] Xem danh sach nhan vien"
          << "│\n";
-    cout << "│" << left << setw(DoRong)
-         << " [2] Them nhan vien moi (Tu dong tao TK)" << "│\n";
+    cout << "│" << left << setw(DoRong) << " [2] Them nhan vien moi" << "│\n";
     cout << "│" << left << setw(DoRong) << " [3] Xoa tai khoan nhan vien"
          << "│\n";
     cout << "│" << left << setw(DoRong) << " [0] Quay lai" << "│\n";
@@ -627,7 +641,7 @@ void TKStaff() {
       VeDuongNgang("├", "┤", DoRong);
       for (int i = 0; i < NguoiDung::SoLuongUser; i++) {
         if (DSNguoiDung[i].GetVaiTro() == "staff") {
-          cout << "│ " << left << setw(15) << DSNguoiDung[i].getHoTen() << "│ "
+          cout << "│ " << left << setw(15) << DSNguoiDung[i].GetHoTen() << "│ "
                << left << setw(12) << DSNguoiDung[i].GetSDT() << "│ " << left
                << setw(9) << DSNguoiDung[i].GetTK() << "│ " << left << setw(11)
                << DSNguoiDung[i].GetMK() << "│\n";
@@ -685,6 +699,7 @@ void TKStaff() {
       break;
     }
     }
+    break;
   }
 }
 void BaoCaoDoanhThu() {
@@ -729,7 +744,7 @@ void BaoCaoDoanhThu() {
       long long DoanhThuThang = 0;
       for (int i = 0; i < DatVatDung::SoLuongSanDaDat; i++) {
         Date ngay = DSSanDaDat[i].GetNgayDat();
-        if (ngay.thang == ThangCanTim && ngay.nam == NanCanTim) {
+        if (ngay.Thang == ThangCanTim && ngay.Nam == NanCanTim) {
           DoanhThuThang += DSSanDaDat[i].GetTongTienBill();
         }
       }
@@ -755,15 +770,15 @@ void BaoCaoDoanhThu() {
         if (DSSanDaDat[i].GetTongTienBill() > 0) {
           CoGiaoDich = true;
           Date D = DSSanDaDat[i].GetNgayDat();
-          string NgaySTR = to_string(D.ngay) + "/" + to_string(D.thang) + "/" +
-                           to_string(D.nam);
+          string NgaySTR = to_string(D.Ngay) + "/" + to_string(D.Thang) + "/" +
+                           to_string(D.Nam);
 
           Time Start = DSSanDaDat[i].GetGioBatDau();
           Time End = DSSanDaDat[i].GetGioKetThuc();
-          string GioSTR = to_string(Start.gio) + ":" +
-                          (Start.phut < 10 ? "0" : "") + to_string(Start.phut) +
-                          "-" + to_string(End.gio) + ":" +
-                          (End.phut < 10 ? "0" : "") + to_string(End.phut);
+          string GioSTR = to_string(Start.Gio) + ":" +
+                          (Start.Phut < 10 ? "0" : "") + to_string(Start.Phut) +
+                          "-" + to_string(End.Gio) + ":" +
+                          (End.Phut < 10 ? "0" : "") + to_string(End.Phut);
 
           cout << "│ " << left << setw(13) << DSSanDaDat[i].GetSDTKhach()
                << "│ " << left << setw(9) << DSSanDaDat[i].GetIDSan() << "│ "
@@ -874,7 +889,7 @@ void MenuStaff(bool Admin = false) {
       for (int i = 0; i < KhachHang::SoLuongHoiVien; i++) {
         if (SDT == DSKhachHang[i].GetSDT()) {
           cout << "\033[1;36m=> Xin chao khach quen: "
-               << DSKhachHang[i].getHoTen() << "\033[0m\n";
+               << DSKhachHang[i].GetHoTen() << "\033[0m\n";
           TimThayKhach = true;
           break;
         }
@@ -924,43 +939,43 @@ void MenuStaff(bool Admin = false) {
           getline(cin, NgayChoiNhap);
         } else {
           NgayHopLe = true;
-          NgayChoi.nam = Nam;
-          NgayChoi.thang = Thang;
-          NgayChoi.ngay = Ngay;
+          NgayChoi.Nam = Nam;
+          NgayChoi.Thang = Thang;
+          NgayChoi.Ngay = Ngay;
         }
       }
 
       cout << "Vui long nhap thoi gian bat dau choi (HH:MM) : ";
       getline(cin, StartImport);
-      Start.gio = stoi(StartImport.substr(0, 2));
-      Start.phut = stoi(StartImport.substr(3, 2));
+      Start.Gio = stoi(StartImport.substr(0, 2));
+      Start.Phut = stoi(StartImport.substr(3, 2));
 
-      while (Start.gio < 0 || Start.gio > 23 || Start.phut < 0 ||
-             Start.phut > 59 ||
-             (NgayChoi.nam == NamHT && NgayChoi.thang == ThangHT &&
-              NgayChoi.ngay == NgayHT &&
-              (Start.gio < GioHT ||
-               (Start.gio == GioHT && Start.phut <= PhutHT)))) {
+      while (Start.Gio < 0 || Start.Gio > 23 || Start.Phut < 0 ||
+             Start.Phut > 59 ||
+             (NgayChoi.Nam == NamHT && NgayChoi.Thang == ThangHT &&
+              NgayChoi.Ngay == NgayHT &&
+              (Start.Gio < GioHT ||
+               (Start.Gio == GioHT && Start.Phut <= PhutHT)))) {
         cout << "\033[1;31mThoi gian khong hop le hoac o trong qua khu! Vui "
                 "long nhap lai (HH:MM) : \033[0m";
         getline(cin, StartImport);
-        Start.gio = stoi(StartImport.substr(0, 2));
-        Start.phut = stoi(StartImport.substr(3, 2));
+        Start.Gio = stoi(StartImport.substr(0, 2));
+        Start.Phut = stoi(StartImport.substr(3, 2));
       }
 
       cout << "Vui long nhap thoi gian ket thuc (HH:MM) : ";
       getline(cin, EndImport);
-      End.gio = stoi(EndImport.substr(0, 2));
-      End.phut = stoi(EndImport.substr(3, 2));
+      End.Gio = stoi(EndImport.substr(0, 2));
+      End.Phut = stoi(EndImport.substr(3, 2));
 
-      while (End.gio < 0 || End.gio > 23 || End.phut < 0 || End.phut > 59 ||
-             (End.gio < Start.gio ||
-              (End.gio == Start.gio && End.phut <= Start.phut))) {
+      while (End.Gio < 0 || End.Gio > 23 || End.Phut < 0 || End.Phut > 59 ||
+             (End.Gio < Start.Gio ||
+              (End.Gio == Start.Gio && End.Phut <= Start.Phut))) {
         cout << "\033[1;31mThoi gian khong hop le (phai sau gio bat dau)! Nhap "
                 "lai (HH:MM) : \033[0m";
         getline(cin, EndImport);
-        End.gio = stoi(EndImport.substr(0, 2));
-        End.phut = stoi(EndImport.substr(3, 2));
+        End.Gio = stoi(EndImport.substr(0, 2));
+        End.Phut = stoi(EndImport.substr(3, 2));
       }
 
       bool TrungLich = false;
@@ -1009,12 +1024,12 @@ void MenuStaff(bool Admin = false) {
           time_t Now = time(0);
           tm *ltm = localtime(&Now);
           Time GioThucTe;
-          GioThucTe.gio = ltm->tm_hour;
-          GioThucTe.phut = ltm->tm_min;
+          GioThucTe.Gio = ltm->tm_hour;
+          GioThucTe.Phut = ltm->tm_min;
           cout << "\033[1;32m\n=> CHECK-IN THANH CONG!\033[0m\n";
           cout << "\033[1;36mTrang thai don: Dang Choi (Playing)\033[0m\n";
-          cout << "\033[1;36mGio vao san thuc te: " << GioThucTe.gio << ":"
-               << GioThucTe.phut << "\033[0m\n";
+          cout << "\033[1;36mGio vao san thuc te: " << GioThucTe.Gio << ":"
+               << GioThucTe.Phut << "\033[0m\n";
           TimThay = true;
           DSSanDaDat[i].SetGioThucTe(GioThucTe);
           break;
@@ -1113,14 +1128,14 @@ void MenuStaff(bool Admin = false) {
           time_t Now = time(0);
           tm *ltm = localtime(&Now);
           Time GioVe;
-          GioVe.gio = ltm->tm_hour;
-          GioVe.phut = ltm->tm_min;
+          GioVe.Gio = ltm->tm_hour;
+          GioVe.Phut = ltm->tm_min;
           TimThay = true;
 
           cout << "\033[1;32m\n=> CHECK-OUT THANH CONG!\033[0m\n";
           cout << "\033[1;36mTrang thai don: Dang Trong (Relax)\033[0m\n";
           cout << "\033[1;36mGio ra san thuc te: " << right << setfill('0')
-               << setw(2) << GioVe.gio << ":" << setw(2) << GioVe.phut
+               << setw(2) << GioVe.Gio << ":" << setw(2) << GioVe.Phut
                << setfill(' ') << "\033[0m\n";
 
           DSSanDaDat[i].SetGioThucTeLucVe(GioVe);
@@ -1131,12 +1146,12 @@ void MenuStaff(bool Admin = false) {
           long long TongPhut = GioRaDat.TongPhut() - GioVaoDat.TongPhut();
           double SoGio = (double)TongPhut / 60.0;
 
-          string Thu = DSSanDaDat[i].GetNgayDat().layThu();
+          string Thu = DSSanDaDat[i].GetNgayDat().LayThu();
           long long TienSan = 0;
           if (Thu == "Thu 7" || Thu == "Chu Nhat") {
             TienSan = (long long)(SoGio * GioCuoiTuan);
           } else {
-            TienSan = (GioVaoDat.gio >= 16) ? (long long)(SoGio * GioCaoDiem)
+            TienSan = (GioVaoDat.Gio >= 16) ? (long long)(SoGio * GioCaoDiem)
                                             : (long long)(SoGio * GioThuong);
           }
 
@@ -1166,8 +1181,8 @@ void MenuStaff(bool Admin = false) {
 
           cout << "San: " << DSSanDaDat[i].GetIDSan() << "\n";
           cout << "Gio dat: " << right << setfill('0') << setw(2)
-               << GioVaoDat.gio << ":" << setw(2) << GioVaoDat.phut << " - "
-               << setw(2) << GioRaDat.gio << ":" << setw(2) << GioRaDat.phut
+               << GioVaoDat.Gio << ":" << setw(2) << GioVaoDat.Phut << " - "
+               << setw(2) << GioRaDat.Gio << ":" << setw(2) << GioRaDat.Phut
                << "\n";
           cout << setfill(' ');
 
@@ -1240,7 +1255,7 @@ void MenuStaff(bool Admin = false) {
       VeDuongNgang("├", "┤", DoRong);
 
       for (int i = 0; i < KhachHang::SoLuongHoiVien; i++) {
-        cout << "│ " << left << setw(16) << DSKhachHang[i].getHoTen() << "│ "
+        cout << "│ " << left << setw(16) << DSKhachHang[i].GetHoTen() << "│ "
              << left << setw(12) << DSKhachHang[i].GetSDT() << "│ " << left
              << setw(7) << DSKhachHang[i].GetDienTichLuy() << "│ " << left
              << setw(13) << DSKhachHang[i].HangThanhVien() << "│\n";
@@ -1331,7 +1346,7 @@ void GhiFileDuLieu() {
   if (FileKH.is_open()) {
     FileKH << KhachHang::SoLuongHoiVien << "\n";
     for (int i = 0; i < KhachHang::SoLuongHoiVien; i++) {
-      FileKH << DSKhachHang[i].getHoTen() << "\n";
+      FileKH << DSKhachHang[i].GetHoTen() << "\n";
       FileKH << DSKhachHang[i].GetSDT() << "\n";
       FileKH << DSKhachHang[i].GetDienTichLuy() << "\n";
     }
@@ -1342,7 +1357,7 @@ void GhiFileDuLieu() {
   if (FileND.is_open()) {
     FileND << NguoiDung::SoLuongUser << "\n";
     for (int i = 0; i < NguoiDung::SoLuongUser; i++) {
-      FileND << DSNguoiDung[i].getHoTen() << "\n";
+      FileND << DSNguoiDung[i].GetHoTen() << "\n";
       FileND << DSNguoiDung[i].GetSDT() << "\n";
       FileND << DSNguoiDung[i].GetTK() << "\n";
       FileND << DSNguoiDung[i].GetMK() << "\n";
@@ -1385,14 +1400,14 @@ void GhiFileDuLieu() {
       FileDatVatDung << DSSanDaDat[i].GetTrangThai() << "\n";
 
       Date Ngay = DSSanDaDat[i].GetNgayDat();
-      FileDatVatDung << Ngay.ngay << " " << Ngay.thang << " " << Ngay.nam
+      FileDatVatDung << Ngay.Ngay << " " << Ngay.Thang << " " << Ngay.Nam
                      << "\n";
 
       Time Vao = DSSanDaDat[i].GetGioBatDau();
-      FileDatVatDung << Vao.gio << " " << Vao.phut << "\n";
+      FileDatVatDung << Vao.Gio << " " << Vao.Phut << "\n";
 
       Time Ra = DSSanDaDat[i].GetGioKetThuc();
-      FileDatVatDung << Ra.gio << " " << Ra.phut << "\n";
+      FileDatVatDung << Ra.Gio << " " << Ra.Phut << "\n";
 
       FileDatVatDung << DSSanDaDat[i].GetTongTienBill() << "\n";
 
@@ -1412,119 +1427,128 @@ void GhiFileDuLieu() {
 void DocFileDuLieu() {
   ifstream FileGia("cai_dat_gia.txt");
   if (FileGia.is_open()) {
-    FileGia >> GioThuong >> GioCaoDiem >> GioCuoiTuan;
+    if (!(FileGia >> GioThuong >> GioCaoDiem >> GioCuoiTuan)) {
+      GioThuong = 30000;
+      GioCaoDiem = 40000;
+      GioCuoiTuan = 30000;
+    }
     FileGia.close();
   }
 
   ifstream FileKH("khachhang.txt");
   if (FileKH.is_open()) {
-    int SoLuongKhachHang;
-    FileKH >> SoLuongKhachHang;
-    FileKH.ignore();
-    KhachHang::SoLuongHoiVien = 0;
-    for (int i = 0; i < SoLuongKhachHang; i++) {
-      string Ten, SDT;
-      int Diem;
-      getline(FileKH, Ten);
-      getline(FileKH, SDT);
-      FileKH >> Diem;
+    int SL = 0;
+    if (FileKH >> SL) {
       FileKH.ignore();
-      DSKhachHang[i] = KhachHang(Ten, SDT, Diem);
+      KhachHang::SoLuongHoiVien = 0;
+      for (int i = 0; i < SL; i++) {
+        string Ten, SDT;
+        int Diem;
+        getline(FileKH, Ten);
+        getline(FileKH, SDT);
+        FileKH >> Diem;
+        FileKH.ignore();
+        DSKhachHang[i] = KhachHang(Ten, SDT, Diem);
+      }
     }
     FileKH.close();
   }
 
   ifstream FileND("nguoidung.txt");
   if (FileND.is_open()) {
-    int SoLuongND;
-    FileND >> SoLuongND;
-    FileND.ignore();
-    NguoiDung::SoLuongUser = 0;
-    for (int i = 0; i < SoLuongND; i++) {
-      string Ten, SDT, TK, MK, VaiTro;
-      getline(FileND, Ten);
-      getline(FileND, SDT);
-      getline(FileND, TK);
-      getline(FileND, MK);
-      getline(FileND, VaiTro);
-      DSNguoiDung[i] = NguoiDung(Ten, SDT, TK, MK, VaiTro);
+    int SL = 0;
+    if (FileND >> SL) {
+      FileND.ignore();
+      NguoiDung::SoLuongUser = 0;
+      for (int i = 0; i < SL; i++) {
+        string Ten, SDT, TK, MK, VaiTro;
+        getline(FileND, Ten);
+        getline(FileND, SDT);
+        getline(FileND, TK);
+        getline(FileND, MK);
+        getline(FileND, VaiTro);
+        DSNguoiDung[i] = NguoiDung(Ten, SDT, TK, MK, VaiTro);
+      }
     }
     FileND.close();
   }
 
   ifstream FileSan("san.txt");
   if (FileSan.is_open()) {
-    int SoLuongSan;
-    FileSan >> SoLuongSan;
-    FileSan.ignore();
-    CauLong::SoLuongSan = 0;
-    for (int i = 0; i < SoLuongSan; i++) {
-      string ID, Ten, TrangThai;
-      getline(FileSan, ID);
-      getline(FileSan, Ten);
-      getline(FileSan, TrangThai);
-      DSSan[i] = CauLong(ID, Ten, TrangThai);
+    int SL = 0;
+    if (FileSan >> SL) {
+      FileSan.ignore();
+      CauLong::SoLuongSan = 0;
+      for (int i = 0; i < SL; i++) {
+        string ID, Ten, TrangThai;
+        getline(FileSan, ID);
+        getline(FileSan, Ten);
+        getline(FileSan, TrangThai);
+        DSSan[i] = CauLong(ID, Ten, TrangThai);
+      }
     }
     FileSan.close();
   }
 
   ifstream FileDV("dichvu.txt");
   if (FileDV.is_open()) {
-    int SoLuongDV;
-    FileDV >> SoLuongDV;
-    FileDV.ignore();
-    DichVu::SoLuongDV = 0;
-    for (int i = 0; i < SoLuongDV; i++) {
-      string ID, Ten;
-      long long Gia;
-      int TonKho, DaBan;
-      getline(FileDV, ID);
-      getline(FileDV, Ten);
-      FileDV >> Gia >> TonKho >> DaBan;
+    int SL = 0;
+    if (FileDV >> SL) {
       FileDV.ignore();
-      DSDichVu[i] = DichVu(ID, Ten, Gia, TonKho);
-      DSDichVu[i].SetSoLuongDaBan(DaBan);
+      DichVu::SoLuongDV = 0;
+      for (int i = 0; i < SL; i++) {
+        string ID, Ten;
+        long long Gia;
+        int TonKho, DaBan;
+        getline(FileDV, ID);
+        getline(FileDV, Ten);
+        FileDV >> Gia >> TonKho >> DaBan;
+        FileDV.ignore();
+        DSDichVu[i] = DichVu(ID, Ten, Gia, TonKho);
+        DSDichVu[i].SetSoLuongDaBan(DaBan);
+      }
     }
     FileDV.close();
   }
 
   ifstream FileDatVatDung("datvatdung.txt");
   if (FileDatVatDung.is_open()) {
-    int SoLuongDat;
-    FileDatVatDung >> SoLuongDat;
-    FileDatVatDung.ignore();
-    DatVatDung::SoLuongSanDaDat = 0;
-    for (int i = 0; i < SoLuongDat; i++) {
-      string IDDat, SDT, IDSan, TrangThai;
-      getline(FileDatVatDung, IDDat);
-      getline(FileDatVatDung, SDT);
-      getline(FileDatVatDung, IDSan);
-      getline(FileDatVatDung, TrangThai);
-
-      Date Ngay;
-      FileDatVatDung >> Ngay.ngay >> Ngay.thang >> Ngay.nam;
-
-      Time Vao, Ra;
-      FileDatVatDung >> Vao.gio >> Vao.phut;
-      FileDatVatDung >> Ra.gio >> Ra.phut;
-
-      long long TongTien;
-      FileDatVatDung >> TongTien;
+    int SL = 0;
+    if (FileDatVatDung >> SL) {
       FileDatVatDung.ignore();
+      DatVatDung::SoLuongSanDaDat = 0;
+      for (int i = 0; i < SL; i++) {
+        string IDDat, SDT, IDSan, TrangThai;
+        getline(FileDatVatDung, IDDat);
+        getline(FileDatVatDung, SDT);
+        getline(FileDatVatDung, IDSan);
+        getline(FileDatVatDung, TrangThai);
 
-      DSSanDaDat[i] = DatVatDung(IDDat, SDT, IDSan, TrangThai, Ngay, Vao, Ra);
-      DSSanDaDat[i].SetTongTienBill(TongTien);
+        Date Ngay;
+        FileDatVatDung >> Ngay.Ngay >> Ngay.Thang >> Ngay.Nam;
 
-      int SoLuongDVDaDat;
-      FileDatVatDung >> SoLuongDVDaDat;
-      FileDatVatDung.ignore();
-      for (int j = 0; j < SoLuongDVDaDat; j++) {
-        string IDDichVu;
-        int SoLuongMon;
-        getline(FileDatVatDung, IDDichVu);
-        FileDatVatDung >> SoLuongMon;
+        Time Vao, Ra;
+        FileDatVatDung >> Vao.Gio >> Vao.Phut;
+        FileDatVatDung >> Ra.Gio >> Ra.Phut;
+
+        long long TongTien;
+        FileDatVatDung >> TongTien;
         FileDatVatDung.ignore();
-        DSSanDaDat[i].ThemDichVu(IDDichVu, SoLuongMon);
+
+        DSSanDaDat[i] = DatVatDung(IDDat, SDT, IDSan, TrangThai, Ngay, Vao, Ra);
+        DSSanDaDat[i].SetTongTienBill(TongTien);
+
+        int SLMon = 0;
+        FileDatVatDung >> SLMon;
+        FileDatVatDung.ignore();
+        for (int j = 0; j < SLMon; j++) {
+          string IDDichVu;
+          int SLMua;
+          getline(FileDatVatDung, IDDichVu);
+          FileDatVatDung >> SLMua;
+          FileDatVatDung.ignore();
+          DSSanDaDat[i].ThemDichVu(IDDichVu, SLMua);
+        }
       }
     }
     FileDatVatDung.close();
