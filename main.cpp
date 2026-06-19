@@ -100,6 +100,10 @@ public:
       return "Silver";
     return "Normal";
   }
+  void congDiem(int tien_thanh_toan) {
+    DiemTichLuy += (tien_thanh_toan / 10000);
+  }
+  int getDiemTichLuy() { return DiemTichLuy; }
 };
 int KhachHang::so_luong_hoi_vien = 0;
 class NguoiDung : public nguoi {
@@ -597,7 +601,8 @@ void quan_li_kho_hang() {
     }
   }
 }
-void menu_staff() {
+
+void menu_staff(bool admin = false) {
   int chon;
   while (true) {
     ve_duong_ngang("┌", "┐", do_rong);
@@ -663,7 +668,8 @@ void menu_staff() {
       if (!tim_thay_khach) {
         cout << "Vui long nhap ten thanh vien moi : ";
         getline(cin, ten);
-
+        int vitri_khach = KhachHang::so_luong_hoi_vien;
+        ds_khach_hang[vitri_khach] = KhachHang(ten, sdt, 0);
         ds_khach_hang[KhachHang::so_luong_hoi_vien] = KhachHang(ten, sdt, 0);
         KhachHang::so_luong_hoi_vien++;
 
@@ -774,7 +780,8 @@ void menu_staff() {
       cin >> sdt;
       bool tim_thay = false;
       for (int i = 0; i < DatVatDung::so_luong_san_da_dat; i++) {
-        if (sdt == ds_san_da_dat[i].getSDT_khach()) {
+        if (sdt == ds_san_da_dat[i].getSDT_khach() &&
+            ds_san_da_dat[i].getTrangThai() == "Booked") {
           ds_san_da_dat[i].setTrangThai("Playing");
           for (int j = 0; j < CauLong::so_luong_san; j++) {
             if (ds_san[j].getID() == ds_san_da_dat[i].getIDsan()) {
@@ -825,7 +832,8 @@ void menu_staff() {
       getline(cin, IDsan);
       int vi_tri_don_hang = -1;
       for (int i = 0; i < DatVatDung::so_luong_san_da_dat; i++) {
-        if (IDsan == ds_san_da_dat[i].getIDsan()) {
+        if (IDsan == ds_san_da_dat[i].getIDsan() &&
+            ds_san_da_dat[i].getTrangThai() == "Playing") {
           vi_tri_don_hang = i;
           ve_duong_ngang("┌", "┐", do_rong);
           cout << "│" << left << setw(do_rong)
@@ -984,6 +992,12 @@ void menu_staff() {
           cout << "\033[1;32m" << left << setw(22) << "THANH TOAN:" << right
                << setw(10) << tong_sau_giam << "\033[0m\n";
           cout << "================================\n";
+          for (int h = 0; h < KhachHang::so_luong_hoi_vien; h++) {
+            if (sdt == ds_khach_hang[h].getSDT()) {
+              ds_khach_hang[h].congDiem(tong_sau_giam);
+              break;
+            }
+          }
 
           break;
         }
@@ -992,6 +1006,43 @@ void menu_staff() {
         cout << "\033[1;31m=> Khong tim thay don dat san nao dang "
                 "choi!\033[0m\n";
       break;
+    }
+    case 6: {
+      ve_duong_ngang("┌", "┐", do_rong);
+      cout << "│" << left << setw(do_rong)
+           << "        DANH SACH KHACH HANG THANH VIEN" << "│\n";
+      ve_duong_ngang("├", "┤", do_rong);
+      cout << "│ " << left << setw(16) << "    Ho Ten"
+           << "│ " << left << setw(12) << "   SDT"
+           << "│ " << left << setw(7) << " Diem"
+           << "│ " << left << setw(13) << " Hang TV" << "│\n";
+      ve_duong_ngang("├", "┤", do_rong);
+
+      for (int i = 0; i < KhachHang::so_luong_hoi_vien; i++) {
+        cout << "│ " << left << setw(16) << ds_khach_hang[i].getHoTen() << "│ "
+             << left << setw(12) << ds_khach_hang[i].getSDT() << "│ " << left
+             << setw(7) << ds_khach_hang[i].getDiemTichLuy() << "│ " << left
+             << setw(13) << ds_khach_hang[i].HangThanhVien() << "│\n";
+      }
+      ve_duong_ngang("└", "┘", do_rong);
+
+      int quaylai;
+      do {
+        cout << "-> Nhan phim 0 de quay lai: ";
+        cin >> quaylai;
+      } while (quaylai != 0);
+
+      break;
+    }
+    case 0: {
+      if (admin) {
+        cout << "\033[1;33m\n=> Da thoat quyen Staff, tro ve Menu "
+                "Admin!\033[0m\n";
+      } else {
+        cout << "\033[1;32m\n=> DANG XUAT THANH CONG! He thong tro ve man hinh "
+                "chinh.\033[0m\n";
+      }
+      return;
     }
     }
   }
@@ -1023,7 +1074,7 @@ void menu_admin() {
     cin >> chon;
     switch (chon) {
     case 1:
-      menu_staff();
+      menu_staff(true);
       break;
     case 2:
       thiet_lap_gia_thue();
