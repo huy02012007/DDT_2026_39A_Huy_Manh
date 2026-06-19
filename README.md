@@ -1,7 +1,7 @@
 <div align="center">
   <h1 align="center">🏸 HỆ THỐNG QUẢN LÝ SÂN CẦU LÔNG (BADMINTON COURT POS)</h1>
   <p align="center">
-    <strong>Đồ án PBL01: Dự án lập trình (Project Based Learning 1)</strong>
+    <strong>Đồ án PBL01:Lập Trình (Project Based Learning 1)</strong>
     <br />
     <i>Chuyên ngành: Kỹ thuật Máy tính - Trường Đại học Bách Khoa (DUT)</i>
   </p>
@@ -32,7 +32,7 @@ Hệ thống được module hóa thành các phân hệ chức năng riêng bi�
   - Tích lũy điểm sau mỗi lần thanh toán và phân hạng tự động (Normal, Silver, Gold, VIP) để tính toán chiết khấu giảm giá.
 - **Point of Sale (POS) - Xử lý hóa đơn:** Gọi thêm dịch vụ (Nước uống, thuê vợt, mua cầu) trực tiếp khi khách đang ở trên sân. Tự động trừ số lượng hàng tồn kho và gộp thẳng vào hóa đơn tính tiền cuối cùng.
 
-## 🧠 3. Nền tảng Kỹ thuật & Cấu trúc Dữ liệu
+## 🧠 3. Nền tảng Kỹ thuật 
 
 Dự án là minh chứng cho việc vận dụng kiến thức lý thuyết vào giải quyết bài toán thực tế:
 1. **Object-Oriented Programming (OOP):** Xây dựng hệ thống Class phức tạp (`KhachHang`, `NguoiDung`, `CauLong`, `DichVu`, `DatVatDung`). Vận dụng tính Đóng gói (Encapsulation) để bảo vệ dữ liệu nhạy cảm và tính Kế thừa (Inheritance) để tối ưu hóa mã nguồn.
