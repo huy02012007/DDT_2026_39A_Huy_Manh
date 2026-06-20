@@ -1125,12 +1125,12 @@ void MenuStaff(bool Admin = false) {
       for (int j = 0; j < DichVu::SoLuongDV; j++) {
         if (IDMuaHang == DSDichVu[j].GetIDSP()) {
           cout << "-> Nhap so luong: ";
+          cout << "-> Nhap so luong: ";
           cin >> SoLuong;
-          while (SoLuong > DSDichVu[j].GetSoLuongTonKho()) {
-            cout << "\033[1;31m-> So luong ton kho hien tai khong du! Vui long "
-                    "nhap lai: \033[0m";
+          while (SoLuong <= 0 || SoLuong > DSDichVu[j].GetSoLuongTonKho()) {
+            cout << "\033[1;31m-> So luong khong hop le! Vui long nhap lai: "
+                    "\033[0m";
             cin >> SoLuong;
-            break;
           }
           cout << "\033[1;32m-> Da dat hang thanh cong\033[0m\n";
           DSDichVu[j].TonKhoSauKhiBan(SoLuong);
