@@ -1,0 +1,21 @@
+4
+DV01
+Nuoc loc
+10000
+118
+2
+DV02
+Quan can vot
+15000
+100
+0
+DV03
+Cau le
+30000
+99
+1
+DV04
+Hop cau
+300000
+100
+0
