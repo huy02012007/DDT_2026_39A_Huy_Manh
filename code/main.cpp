@@ -632,7 +632,6 @@ void TKStaff() {
 
     switch (Chon) {
     case 1: {
-      int Chon;
       VeDuongNgang("┌", "┐", DoRong);
       cout << "│ " << left << setw(15) << "Ho Ten"
            << "│ " << left << setw(12) << "SDT"
@@ -648,11 +647,13 @@ void TKStaff() {
         }
       }
       VeDuongNgang("└", "┘", DoRong);
-      cout << "-> Chon 0 de quay lai: ";
-      cin >> Chon;
-      if (Chon == 0) {
-        return;
-      }
+
+      int QuayLai;
+      do {
+        cout << "-> Chon 0 de quay lai: ";
+        cin >> QuayLai;
+      } while (QuayLai != 0);
+
       break;
     }
     case 2: {
@@ -660,8 +661,22 @@ void TKStaff() {
       cin.ignore();
       cout << "-> Nhap Ho Ten nhan vien: ";
       getline(cin, Ten);
-      cout << "-> Nhap So dien thoai: ";
-      getline(cin, SDT);
+
+      bool TrungSDT;
+      do {
+        TrungSDT = false;
+        cout << "-> Nhap So dien thoai: ";
+        getline(cin, SDT);
+
+        for (int i = 0; i < NguoiDung::SoLuongUser; i++) {
+          if (DSNguoiDung[i].GetSDT() == SDT) {
+            TrungSDT = true;
+            cout << "\033[1;31m=> Loi: So dien thoai nay da duoc dang ky! Vui "
+                    "long nhap SDT khac.\033[0m\n";
+            break;
+          }
+        }
+      } while (TrungSDT == true);
 
       string TKMoi = SDT;
       string MkMoi = "123456";
@@ -670,8 +685,8 @@ void TKStaff() {
       DSNguoiDung[ViTriMoi] = NguoiDung(Ten, SDT, TKMoi, MkMoi, "staff");
 
       cout << "\033[1;32m\n=> Them nhan vien thanh cong!\033[0m\n";
-      cout << "   Tài khoản duoc cap : \033[1;33m" << TKMoi << "\033[0m\n";
-      cout << "   Mật khẩu mac dinh  : \033[1;33m" << MkMoi << "\033[0m\n\n";
+      cout << "   Tai khoan duoc cap : \033[1;33m" << TKMoi << "\033[0m\n";
+      cout << "   Mat khau mac dinh  : \033[1;33m" << MkMoi << "\033[0m\n\n";
       break;
     }
     case 3: {
@@ -699,7 +714,6 @@ void TKStaff() {
       break;
     }
     }
-    break;
   }
 }
 void BaoCaoDoanhThu() {
@@ -1298,8 +1312,8 @@ void MenuAdmin() {
          << "│\n";
     cout << "│" << left << setw(DoRong) << " [4] Quan ly kho hang & Gia"
          << "│\n";
-    cout << "│" << left << setw(DoRong)
-         << " [5] Quan ly tai khoan Nhan vien (Them/Xoa)" << "│\n";
+    cout << "│" << left << setw(DoRong) << " [5] Quan ly tai khoan Nhan vien"
+         << "│\n";
     cout << "│" << left << setw(DoRong) << " [6] Xem bao cao doanh thu "
          << "│\n";
     cout << "│" << left << setw(DoRong) << " [0] Dang xuat khoi he thong"
