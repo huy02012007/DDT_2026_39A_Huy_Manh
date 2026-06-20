@@ -81,6 +81,7 @@ Hệ thống đã được khởi tạo sẵn một số dữ liệu mẫu và t
 | :---: | :--- | :---: | :--- |
 | 1 | **Nguyễn Hữu Huy** | `106250074` |  Thiết kế kiến trúc OOP cốt lõi; Xử lý thuật toán Đặt sân, Check-in/Check-out thời gian thực; Cấu hình module Tính tiền và Báo cáo doanh thu. |
 | 2 | **Nguyễn Hữu Mạnh** | `106250192` | Xử lý logic phân quyền Admin/Staff; Quản lý kho hàng dịch vụ; Xây dựng hệ thống Khách hàng (tích điểm/phân hạng) & Thực hiện kiểm thử (Testing). |
-
+## 🎥 Video Demo
+👉 [Bấm vào đây để xem Video Demo toàn bộ chức năng trên YouTube](https://youtu.be/d3QJVBqn7OE)
 ---
-*Dự án được thực hiện dưới sự hướng dẫn của ** D.Tuấn** (Mã HP: NHP39A).*
+*Dự án được thực hiện dưới sự hướng dẫn của **D.Tuấn** (Mã HP: NHP39A).*
