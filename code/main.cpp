@@ -326,24 +326,30 @@ void ThietLapGiaThue() {
     }
     case 2: {
       {
-        cout << "Vui long nhap gia thuong muon thay doi : ";
-        cin >> GioThuong;
+        do {
+          cout << "Vui long nhap gia thuong muon thay doi: ";
+          cin >> GioThuong;
+        } while (GioThuong < 0);
         cout << "\033[31m -> Da cap nhap hoan tat!\033[0m\n";
       }
       break;
     }
     case 3: {
       {
-        cout << "Vui long nhap gia gio cao diem muon thay doi : ";
-        cin >> GioCaoDiem;
+        do {
+          cout << "Vui long nhap gia gio cao diem muon thay doi: ";
+          cin >> GioCaoDiem;
+        } while (GioCaoDiem < 0);
         cout << "\033[31m -> Da cap nhap hoan tat!\033[0m\n";
       }
       break;
     }
     case 4: {
       {
-        cout << "Vui long nhap gia cuoi tuan muon thay doi : ";
-        cin >> GioCuoiTuan;
+        do {
+          cout << "Vui long nhap gia cuoi tuan muon thay doi: ";
+          cin >> GioCuoiTuan;
+        } while (GioCuoiTuan < 0);
         cout << "\033[31m -> Da cap nhap hoan tat!\033[0m\n";
       }
       break;
@@ -421,11 +427,16 @@ void QuanLiDSSan() {
       int SoSan;
       cout << "-> Vui long nhap so luong san muon xoa : ";
       cin >> SoSan;
+
+      if (SoSan <= 0 || SoSan > CauLong::SoLuongSan) {
+        cout << "\033[31m -> Loi: So luong xoa khong hop le!\033[0m\n";
+        break;
+      }
+
       for (int i = 0; i < SoSan; i++) {
         CauLong::SoLuongSan--;
       }
-      cout << "\033[32m -> Da xoa san thanh cong " << SoSan
-           << " san thanh cong!\033[0m\n";
+      cout << "\033[32m -> Da xoa san thanh cong " << SoSan << " san!\033[0m\n";
       break;
     }
     case 0: {
@@ -847,7 +858,11 @@ void MenuStaff(bool Admin = false) {
     VeDuongNgang("└", "┘", DoRong);
     cout << " -> Lua chon cua ban: ";
     cin >> Chon;
-
+    if (cin.fail()) {
+      cin.clear();
+      cin.ignore(10000, '\n');
+      Chon = -1;
+    }
     switch (Chon) {
     case 1: {
       while (true) {
@@ -1322,6 +1337,11 @@ void MenuAdmin() {
 
     cout << " -> Lua chon cua ban: ";
     cin >> Chon;
+    if (cin.fail()) {
+      cin.clear();
+      cin.ignore(10000, '\n');
+      Chon = -1;
+    }
     switch (Chon) {
     case 1:
       MenuStaff(true);
@@ -1579,7 +1599,11 @@ int main() {
     cout << "[0] Thoat\n";
     cout << "Nhap lua chon cua ban (0-1) : ";
     cin >> Chon;
-
+    if (cin.fail()) {
+      cin.clear();
+      cin.ignore(10000, '\n');
+      Chon = -1;
+    }
     if (Chon == 0) {
       GhiFileDuLieu();
       break;
